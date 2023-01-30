@@ -1,16 +1,8 @@
 import Head from 'next/head'
 import {TabsLayout} from "@/layout";
-import {useEffect} from "react";
-import {toast} from "react-toastify";
 import {LandingFormView} from "@/components/LandingFormView";
 
 const Home = () => {
-    useEffect(() => {
-            console.log('Home page loaded');
-            setTimeout(() => {
-                toast.success('Home page loaded');
-            }, 1000)
-        },[])
     return (
         <>
             <Head>
