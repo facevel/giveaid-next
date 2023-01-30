@@ -1,1 +1,1 @@
-export {default as StarterLayout} from './starterLayout';
+export {default as TabsLayout } from './tabsLayout';
