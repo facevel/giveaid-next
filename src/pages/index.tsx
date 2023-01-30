@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import {StarterLayout} from "@/layout";
+import {TabsLayout} from "@/layout";
 import {useEffect} from "react";
 import {toast} from "react-toastify";
 import {LandingFormView} from "@/components/LandingFormView";
@@ -26,5 +26,6 @@ const Home = () => {
     )
 }
 
+Home.pageLayout = TabsLayout;
 
 export default Home
