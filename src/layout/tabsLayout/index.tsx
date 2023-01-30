@@ -54,7 +54,7 @@ const TabsLayout = (props: Props) => {
 
   return (
     <div className={""}>
-      <nav className={'sticky top-0 w-full h-20 bg-green-500 flex flex-row items-center justify-center text-xl'}>
+      <nav className={'sticky top-0 w-full h-20 bg-green-600 flex flex-row items-center justify-center text-xl'}>
         <img src={'/giveaid-logo.svg'} alt={'Give Aid Logo'}/>
       </nav>
       <div className={"top-0 min-h-[calc(100vh)] w-full"}>
