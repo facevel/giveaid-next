@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 @layer components {
   .grow-on-hover {
     @apply transform transition hover:scale-105 cursor-pointer ease-in-out duration-150;
