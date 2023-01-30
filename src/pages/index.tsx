@@ -2,6 +2,7 @@ import Head from 'next/head'
 import {StarterLayout} from "@/layout";
 import {useEffect} from "react";
 import {toast} from "react-toastify";
+import {LandingFormView} from "@/components/LandingFormView";
 
 const Home = () => {
     useEffect(() => {
@@ -19,12 +20,11 @@ const Home = () => {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <main>
-                <h1 className='font-sans text-red-400'>Home</h1>
+                <LandingFormView/>
             </main>
         </>
     )
 }
 
-Home.pageLayout = StarterLayout;
 
 export default Home
