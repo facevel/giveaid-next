@@ -2,10 +2,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import {
-  RiHomeFill,
-  RiNotification2Fill,
-  RiTruckFill,
-  RiUserFill
+  RiHomeFill, RiHomeLine,
+  RiNotification2Fill, RiNotification2Line,
+  RiTruckFill, RiTruckLine,
+  RiUserFill, RiUserLine
 } from "react-icons/ri";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -27,20 +27,28 @@ const TabsLayout = (props: Props) => {
 
   const tabs = [
     {
-      icon: <RiHomeFill className={"user-select-none "} />,
-      link: "/"
+      icon: <RiHomeFill/>,
+      notSelectedIcon: <RiHomeLine/>,
+      link: "/",
+      name: "Home"
     },
     {
       icon: <RiTruckFill />,
-      link: "/tracking"
+      notSelectedIcon: <RiTruckLine />,
+      link: "/tracking",
+      name: "Tracking"
     },
     {
       icon: <RiNotification2Fill />,
-      link: "/notification"
+      notSelectedIcon: <RiNotification2Line />,
+      link: "/notification",
+      name: "Notification"
     },
     {
       icon: <RiUserFill />,
-      link: "/profile"
+      notSelectedIcon: <RiUserLine />,
+      link: "/profile",
+      name: "Profile"
     }
   ];
 
@@ -51,25 +59,30 @@ const TabsLayout = (props: Props) => {
       </div>
       <div
         className={
-          "sticky bottom-0 flex h-20 w-full flex-row justify-evenly gap-4 rounded-t-2xl bg-gray-100 px-4 py-4 dark:bg-gray-900"
+          "sticky bottom-0 flex h-20 w-full flex-row justify-evenly gap-4 rounded-t-2xl bg-gray-100 px-1 py-2 dark:bg-gray-900"
         }
       >
         {tabs.map((item, index) => {
           return (
 
             <div
-              className={`flex h-full w-full flex-row items-center justify-center rounded-3xl text-3xl outline-none ${
+              className={`flex h-full w-full flex-col gap-2 items-center justify-center rounded-3xl text-2xl outline-none 
+              ${
                 item.link == currentTab
-                  ? "bg-green-200 text-green-500 dark:bg-green-700 dark:text-green-100"
-                  : "text-gray-900 dark:text-gray-800"
-              }`}
+                  ? "text-green-500 dark:text-green-100"
+                  : "text-gray-900 dark:text-gray-400"
+              }
+              `}
               key={index}
             >
               <Link href={item.link}>
                 <span>
-                  {item.icon}
+                  {
+                     item.link == currentTab ? item.icon : item.notSelectedIcon
+                  }
                 </span>
               </Link>
+              <span className={"text-xs"}>{item.name}</span>
             </div>
           );
         })}
