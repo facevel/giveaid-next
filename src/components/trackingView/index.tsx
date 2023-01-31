@@ -7,7 +7,7 @@ export const TrackingView = ({setSearch}: any) => {
         <div className={"bg-white rounded-lg drop-shadow pb-3 w-full dark:text-gray-100 dark:bg-gray-800"}>
             {/*DIV FOR UPPER PART OF COMPONENT*/}
             <div className={"pt-3 pl-10 pr-4 flex justify-between items-center"}>
-                <div className={"text-gray-500 text-sm"}>Kilkari Orphanage</div>
+                <div className={"text-gray-500 text-sm"}>Smile Foundation</div>
                 <RiRefreshLine className={"text-green-600 cursor-pointer"} onClick={() => {
                     setSearch(false)
                 }
@@ -22,7 +22,7 @@ export const TrackingView = ({setSearch}: any) => {
                         Standard 5 Books
                     </h5>
                     <p className="mb-3 mr-5 font-normal text-sm text-gray-700 dark:text-gray-400">
-                        Received by Kilkari Orphanage on 25th February 2022
+                        Received by Smile Foundation on 25th February 2022
                     </p>
                 </div>
             </a>
@@ -45,13 +45,14 @@ export const TrackingView = ({setSearch}: any) => {
                 <div className={"flex flex-row"}>
                     {/*Image Div*/}
                     <div className={" rounded-lg overflow-hidden border border-gray-200"}>
-                        <img src={"https://1000logos.net/wp-content/uploads/2018/08/DHL-emblem.jpg"}
-                             className={"object-fill w-24"}/>
+                        <img
+                            src={"https://projectheena.com/uploads/ngo/37146191295115/profileImage/images/smile-foundation.jpg"}
+                            className={"object-fill p-3 w-20"}/>
                     </div>
                     <div className={"ml-3 flex flex-col justify-between pb-2"}>
-                        <div className={"text-xl pt-1 font-semibold"}>DHL</div>
-                        <a className={"text-gray-500 text-sm"} href={"https://reddit.com/r/therewasanattempt"}>DHL
-                            Logistics</a>
+                        <p className={"text-xl pt-1 font-semibold"}>Smile Foundation</p>
+                        <a className={"text-gray-500 text-sm"} href={""}>
+                            Non-Profit Organisation</a>
                     </div>
                 </div>
                 <div className={"flex flex-col justify-end items-end pb-2"}>
