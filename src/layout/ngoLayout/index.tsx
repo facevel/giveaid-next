@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function NgoPageLayout(props: Props) {
+export default function NgoPageLayout(props: Props) {
   return (
     <div>
       <nav
@@ -22,7 +22,6 @@ export function NgoPageLayout(props: Props) {
         >
           <img src={"/giveaid-logo.svg"} alt={"Give Aid Logo"} />
           <div className={"flex flex-row items-center gap-10"}>
-            <Link href={"#"}>
               <span
                 className={
                   "rounded-lg flex flex-col"
@@ -30,10 +29,12 @@ export function NgoPageLayout(props: Props) {
               >
               <NgoDropdown/>
               </span>
-            </Link>
           </div>
         </div>
       </nav>
+      <div className={'container mx-auto py-5'}>
+        {props.children}
+      </div>
     </div>
   );
 }

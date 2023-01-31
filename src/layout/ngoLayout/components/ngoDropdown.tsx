@@ -10,19 +10,18 @@ const NgoDropdown = () => {
   const menuRef = useRef(null);
 
   useEffect(() => {
-
-    function handleClickOutside(event: { target: any }) {
-      // @ts-ignore
-      if (menuRef.current && !menuRef.current.contains<any>(event.target)) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    // function handleClickOutside(event: { target: any }) {
+    //   // @ts-ignore
+    //   if (menuRef.current && !menuRef.current.contains<any>(event.target)) {
+    //     setIsOpen(false);
+    //   }
+    // }
+    //
+    // document.addEventListener("mousedown", handleClickOutside);
+    //
+    // return () => {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // };
   }, []);
 
 
@@ -35,9 +34,7 @@ const NgoDropdown = () => {
         <div className="flex flex-col md:flex-row mx-6 font-semibold md:gap-2 gap-8 text-2xl md:text-lg items-center">
           <a
             className="text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-green-500 dark:hover:text-blue-400 md:mx-4 md:my-0 cursor-pointer"
-            onClick={() => {
-              router.push("/dashboard");
-            }}
+
           >
             Dashboard
           </a>
