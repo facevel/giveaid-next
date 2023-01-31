@@ -12,7 +12,7 @@ export default function NgoPageLayout(props: Props) {
     <div>
       <nav
         className={
-          "sticky top-0 flex h-20 w-full flex-row items-center justify-between bg-green-600 text-xl"
+          "sticky top-0 flex h-20 w-full flex-row items-center justify-between bg-green-600 text-xl z-20 drop-shadow-xl border-b-2 border-green-700 px-5"
         }
       >
         <div
