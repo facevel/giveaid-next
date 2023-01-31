@@ -1,4 +1,5 @@
 import {RiRefreshLine} from "react-icons/ri";
+import { TbBooks } from "react-icons/tb";
 
 export const TrackingView = ({setSearch}: any) => {
     return (
@@ -12,6 +13,18 @@ export const TrackingView = ({setSearch}: any) => {
                 }/>
             </div>
             <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700"/>
+            <a href="#"
+               className="flex flex-row items-center bg-white border border-gray-200 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <TbBooks className={'w-48 text-6xl'}/>
+                    <div className="flex flex-col justify-between p-4 leading-normal">
+                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            Std 5 Books
+                        </h5>
+                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                            5 books for Std 5 students you donated to a school in Kandy District.
+                        </p>
+                    </div>
+            </a>
             <div className={"flex justify-between pl-10 py-4"}>
                 {/*TEXT DIV*/}
                 <div>
