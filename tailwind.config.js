@@ -58,6 +58,9 @@ module.exports = {
                     800: "#11be4e",
                     900: "#0b6b30",
                 },
+                shipyellow: {
+                    200: "#FFCC2A"
+}
             }
         }
     },

@@ -44,7 +44,7 @@ export const TrackingView = ({setSearch}: any) => {
             <div className={"flex justify-between mx-10 font-sans py-4"}>
                 <div className={"flex flex-row"}>
                     {/*Image Div*/}
-                    <div className={" rounded-lg overflow-hidden border border-gray-200"}>
+                    <div className={"bg-shipyellow-200 rounded-lg overflow-hidden border border-gray-200"}>
                         <img src={"https://1000logos.net/wp-content/uploads/2018/08/DHL-emblem.jpg"}
                              className={"object-fill w-24"}/>
                     </div>
