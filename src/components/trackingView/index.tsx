@@ -1,6 +1,6 @@
 import {RiRefreshLine} from "react-icons/ri";
 import React from "react";
-import {BsCheckCircleFill} from "react-icons/all";
+import {BsCheckCircleFill} from "react-icons/bs";
 
 export const TrackingView = ({setSearch}: any) => {
     return (
