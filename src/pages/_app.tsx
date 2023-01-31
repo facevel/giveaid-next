@@ -15,7 +15,7 @@ type ComponentWithLayout = AppProps & {
 
 export default function App({Component, pageProps}: ComponentWithLayout) {
     return (
-        <ThemeProvider attribute="class" enableSystem={true}>
+        <ThemeProvider attribute="class" enableSystem={true} forcedTheme={'light'}>
             <ToastThemeWrapper/>
             {/*<div className={'flex flex-row items-center gap-1 w-fit mx-auto'}>*/}
             {/*    Toggle&nbsp;Theme&nbsp;-*/}
