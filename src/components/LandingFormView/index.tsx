@@ -1,6 +1,5 @@
 import React from "react";
 import {toast} from "react-toastify";
-import {Rate} from "antd";
 
 export const LandingFormView = () => {
     return (
