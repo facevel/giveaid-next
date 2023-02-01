@@ -17,10 +17,12 @@ interface UserContext {
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   setError: (error: string) => void;
-  setUser: (user: firebase.User | object | undefined | null) => void;
+  setUser: (user: firebase.User | object | undefined | null | unknown) => void;
   setIsAuthLoading: (isAuthLoading: boolean) => void;
   getAuthToken: () => Promise<string | null>;
 }
+
+//what is type for object of type UserContext
 
 export const UserContext = createContext<UserContext | null>(null);
 
@@ -65,7 +67,10 @@ export const UserContextProvider = (props: any) => {
 
           // TODO: Fix this\
           // @ts-ignore
-          userCred.user.photoURL = userCred.user.photoURL.replace("s96-c", "s400-c");
+          userCred.user.photoURL = userCred.user.photoURL.replace(
+            "s96-c",
+            "s400-c"
+          );
 
           resolve(userCred.user);
         } catch (error: any | unknown) {
@@ -106,9 +111,12 @@ export const UserContextProvider = (props: any) => {
   const loginWithGoogle = async () => {
     try {
       const user = await AuthService.loginWithGoogle();
+
+      // @ts-ignore
+      setUser(user);
     } catch (e: any | unknown) {
       console.log({ catcher: e });
-      setError(e.response.message || "Something went wrong!");
+      setError(e || "Something went wrong!");
     }
   };
 
@@ -133,6 +141,7 @@ export const UserContextProvider = (props: any) => {
   };
 
   return (
+    // @ts-ignore
     <UserContext.Provider value={contextValue}>
       {" "}
       {props.children}{" "}
