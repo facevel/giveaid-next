@@ -60,7 +60,7 @@ export const LandingFormView = () => {
                                     <div className={"flex space-x-6 text-gray-500 justify-center items-center"}>
                                         <input type="email" id="email"
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                               placeholder="Dwarka, New Delhi" />
+                                               placeholder="Dwarka, New Delhi"/>
                                     </div>
                                 </div>
 
@@ -71,7 +71,7 @@ export const LandingFormView = () => {
                                 <div className={"flex space-x-6 text-gray-500 justify-center items-center"}>
                                     <select id="email"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="name@flowbite.com" >
+                                            placeholder="name@flowbite.com">
                                         <option value="1">Food</option>
                                         <option value="2">Clothes</option>
                                         <option value="3">Books</option>

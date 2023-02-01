@@ -10,19 +10,18 @@ const NgoDropdown = () => {
   const menuRef = useRef(null);
 
   useEffect(() => {
-
-    function handleClickOutside(event: { target: any }) {
-      // @ts-ignore
-      if (menuRef.current && !menuRef.current.contains<any>(event.target)) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    // function handleClickOutside(event: { target: any }) {
+    //   // @ts-ignore
+    //   if (menuRef.current && !menuRef.current.contains<any>(event.target)) {
+    //     setIsOpen(false);
+    //   }
+    // }
+    //
+    // document.addEventListener("mousedown", handleClickOutside);
+    //
+    // return () => {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // };
   }, []);
 
 
@@ -31,44 +30,8 @@ const NgoDropdown = () => {
 
   return (
     <div className="" ref={menuRef}>
-      <div className="w-full flex flex-col md:hidden items-center justify-center my-8">
-        <div className="flex flex-col md:flex-row mx-6 font-semibold md:gap-2 gap-8 text-2xl md:text-lg items-center">
-          <a
-            className="text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-green-500 dark:hover:text-blue-400 md:mx-4 md:my-0 cursor-pointer"
-            onClick={() => {
-              router.push("/dashboard");
-            }}
-          >
-            Dashboard
-          </a>
-          <a
-            className="text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-green-500 dark:hover:text-blue-400 md:mx-4 md:my-0 cursor-pointer"
-          >
-            Logout
-          </a>
 
-          <a
-            href="#"
-            className="flex items-center p-3 w-full px-3 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 bg-gray-200 dark:bg-gray-700 space-x-3 dark:hover:text-white rounded-xl"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="flex-shrink-0 object-cover mx-1 rounded-full w-11 h-11 bg-slate-400 overflow-clip"
-              src={"https://api.dicebear.com/5.x/shapes/svg"}
-            />
-            <div className="mx-1">
-              <h1 className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Welcome,
-              </h1>
-              <p className="text-base font-semibold text-gray-800 dark:text-gray-200">
-                Sunshine NGO
-              </p>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div className="relative hidden w-9 h-9 md:flex flex-col m-auto">
+      <div className="relative w-9 h-9 md:flex flex-col m-auto">
         <span
           className="relative z-10 flex items-center justify-center text-sm text-gray-600 bg-white border border-transparent  dark:text-white dark:bg-gray-800  w-fit outline outline-offset-1 outline-green-500 rounded-full"
           onClick={() => {

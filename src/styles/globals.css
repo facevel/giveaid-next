@@ -35,3 +35,4 @@
     @apply transform transition hover:translate-x-0.5 cursor-pointer ease-in-out duration-150;
   }
 }
+

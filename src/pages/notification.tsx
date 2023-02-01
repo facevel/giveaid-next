@@ -40,25 +40,25 @@ const Notification = () => {
     const [message, setMessages] = useState(messages);
     return (
         <div>
-            <div className={"p-10 flex flex-col gap-5"}>
+            <div className={"p-10 flex flex-col gap-5 "}>
                 {
                     message.map((obj, index) => {
                         return (
                             <div id="toast-message-cta" key={index}
-                                 className="w-full p-4 text-gray-500 bg-gray-100 rounded-lg shadow dark:bg-gray-800
+                                 className="w-full p-4 text-gray-500 bg-gray-50 rounded-md shadow dark:bg-gray-800
                                 dark:text-gray-400"
                                  role="alert">
                                 <div className="flex">
-                                    <img className="w-8 h-8 rounded-full shadow-lg"
+                                    <img className="w-8 h-8 rounded-full border"
                                          src="https://api.dicebear.com/5.x/personas/svg?seed=Lily"
                                          alt="Jese Leos image"/>
                                     <div className="ml-3 text-sm font-normal">
                                     <span
-                                        className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{obj.title}</span>
+                                        className="mb-1 text-base font-semibold text-gray-700 dark:text-white">{obj.title}</span>
                                         <div className="mb-2 text-sm font-normal">{obj.message}
                                         </div>
                                         <a href="#"
-                                           className="inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">Reply</a>
+                                           className="inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-green-600 rounded-md hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">Reply</a>
                                     </div>
                                     <button type="button"
                                             className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"

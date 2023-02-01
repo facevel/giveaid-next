@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
+    corePlugins: {
+        preflight: true,
+    },
     content: [
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
@@ -64,11 +67,11 @@ module.exports = {
             }
         }
     },
-    plugins:[
-    require('prettier-plugin-tailwindcss'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/line-clamp'),
-],
-    darkMode:"class",
+    plugins: [
+        require('prettier-plugin-tailwindcss'),
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+        require('@tailwindcss/line-clamp'),
+    ],
+    darkMode: "class",
 }
