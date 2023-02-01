@@ -1,6 +1,6 @@
 import { TrackingView } from "@/components/trackingView";
 import React, { useState } from "react";
-import { TabsLayout } from "layout";
+import { TabsLayout } from "@/layouts";
 
 function TrackingPage() {
     const [searchStatus, setSearch] = useState(false);
