@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NgoDropdown from "./components/ngoDropdown";
 import MenuAntDesign from "./components/menuAntDesign";
 import { useUserContext } from "@/firebase/authContext";
-import { GoogleButton, Modal } from "components";
+import { GoogleButton, Modal, Loading } from "components";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -16,6 +16,8 @@ export default function NgoPageLayout(props: Props) {
 
   const router = useRouter();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(()=>{
     if(user){
       setGetStartedModal(false)
@@ -24,8 +26,22 @@ export default function NgoPageLayout(props: Props) {
     }
   },[loggingIn])
 
+  useEffect(()=>{
+    //if router.pathname is /ngo/dashboard or anything after that then check if user is logged in or not
+    if(router.pathname.includes('/ngo/dashboard')){
+      if(!user){
+        router.push('/ngo').then(() => setLoading(false))
+        return
+      }
+    }
+    setLoading(false)
+  },[user, router.pathname])
+
   return (
     <div className={"min-h-screen"}>
+      {
+        loading && <Loading />
+      }
       <nav
         className={
           "sticky top-0 z-20 flex h-20 w-full flex-row items-center justify-between border-b-2 border-green-700 bg-green-600 px-5 text-xl drop-shadow-xl"

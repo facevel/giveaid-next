@@ -5,6 +5,8 @@ import { withProtectedForNGO } from "@/firebase/routes";
 import { ReactNode } from "react";
 import { NgoPageLayout } from "layouts";
 
+
+
 const NgoPage = () => {
   return (
     <div>
@@ -139,4 +141,5 @@ const NgoPage = () => {
 NgoPage.pageLayout = NgoPageLayout;
 
 
-export default withProtectedForNGO(NgoPage);
+// export default withProtectedForNGO(NgoPage);
+export default NgoPage;

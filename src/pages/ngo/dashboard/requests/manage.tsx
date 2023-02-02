@@ -1,14 +1,13 @@
 import * as React from "react";
 import { NgoPageLayout } from "layouts";
+import { withProtectedForNGO } from "@/firebase/routes";
 
-type Props = {
-  // ...
-};
 
-export function ManageRequests(props: Props) {
+const ManageRequests = () => {
 
   return (
       <>
+        <h1>Manage Requests</h1>
       </>
   );
 };

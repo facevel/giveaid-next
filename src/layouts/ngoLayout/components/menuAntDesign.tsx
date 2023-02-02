@@ -28,7 +28,7 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem(<Link href={'/ngo/dashboard'}>Overview</Link>, "/ngo/dashboard", <RiHomeFill />),
-  getItem('Requests', "/ngo/dashboard/requests", <GoTasklist />, [
+  getItem('Requests', "requests", <GoTasklist />, [
 
     getItem(<Link href={'/ngo/dashboard/requests/manage'}>Manage Request</Link>, "/ngo/dashboard/requests/manage"),
     getItem(<Link href={'/ngo/dashboard/requests/history'}>Request History</Link>, "/ngo/dashboard/requests/history"),
@@ -69,7 +69,7 @@ const MenuAntDesign: React.FC = () => {
 
   const [selectedKeys, setSelectedKeys] = useState<string[] | null>(null);
 
-  const [selectedGroup, setSelectedGroup] = useState<string[] | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<string[] | undefined>(undefined);
 
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const MenuAntDesign: React.FC = () => {
           style={{ width: "100%", height: "100%" }}
 
           defaultSelectedKeys={ selectedKeys }
-          defaultOpenKeys={selectedGroup}
+          defaultOpenKeys={ selectedGroup }
           mode={mode}
           theme={theme}
           items={items}
