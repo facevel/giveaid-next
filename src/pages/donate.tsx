@@ -15,7 +15,7 @@ const LocationStep = () => {
 
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: ""
+        googleMapsApiKey: "AIzaSyBUij2tw6KiGa7nykcTW3oosqrqJxQm_Kg"
     })
 
     const [map, setMap] = useState(null)
