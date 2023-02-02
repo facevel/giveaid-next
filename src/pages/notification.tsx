@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import {useState} from "react";
-import {TabsLayout} from "@/layout";
+import {TabsLayout} from "@/layouts";
 
 const messages = [{
     "title": "Donation Received",

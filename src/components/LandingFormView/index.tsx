@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {FormFlow, GoogleButton, Modal} from "components";
+import { useUserContext } from "src/firebase/authContext";
 
 export const LandingFormView = () => {
     const [modalOpen, setModalOpen] = React.useState(false)
+    const { user } = useUserContext();
+
+    useEffect(() => {
+        if (user) {
+            setModalOpen(false)
+        }
+    }, [user])
+
     return (
         <div className={"container mx-auto flex flex-col justify-center items-center "}>
             {modalOpen &&
@@ -13,7 +22,7 @@ export const LandingFormView = () => {
                         </p>
                         <GoogleButton/>
                         <p className="max-w-sm text-center text-sm">
-                            By creating an account, you agree to WhenWhereWhat's <a href="/terms-of-service"
+                            By creating an account, you agree to Giveaid's <a href="/terms-of-service"
                                                                                     className="text-blue-500 hover:underline font-semibold">Terms
                             of Service</a>, <a href="/privacy-policy"
                                                className="text-blue-500 hover:underline font-semibold">Privacy

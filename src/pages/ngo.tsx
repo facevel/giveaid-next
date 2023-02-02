@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { NgoPageLayout } from "@/layout";
+import { NgoPageLayout } from "@/layouts";
 import { CardBarChart, CardLineChart } from "@/components";
 
 const NgoPage = () => {

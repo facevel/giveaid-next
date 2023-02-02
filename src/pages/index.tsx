@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import {LandingFormView} from "@/components/LandingFormView";
-import {TabsLayout} from "layout";
+import {TabsLayout} from "@/layouts";
 
 const Home = () => {
     return (
