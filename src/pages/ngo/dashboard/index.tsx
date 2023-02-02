@@ -1,8 +1,9 @@
 // @flow
 import * as React from "react";
-import { NgoPageLayout } from "layouts";
 import { CardBarChart, CardLineChart } from "components";
 import { withProtectedForNGO } from "@/firebase/routes";
+import { ReactNode } from "react";
+import { NgoPageLayout } from "layouts";
 
 const NgoPage = () => {
   return (

@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
 import NgoDropdown from "./components/ngoDropdown";
+import MenuAntDesign from "./components/menuAntDesign";
 import { useUserContext } from "@/firebase/authContext";
 import { GoogleButton, Modal } from "components";
+import { useRouter } from "next/router";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function NgoPageLayout(props: Props) {
-  const { user, logout } = useUserContext();
+  const { user, logout, loggingIn } = useUserContext();
 
   const [getStartedModal, setGetStartedModal] = useState(false);
+
+  const router = useRouter();
 
   useEffect(()=>{
     if(user){
       setGetStartedModal(false)
+      //after login the user will be sent to dashboard
+      router.push('/ngo/dashboard')
     }
-  },[user])
+  },[loggingIn])
 
   return (
     <div className={"min-h-screen"}>
@@ -39,7 +45,11 @@ export default function NgoPageLayout(props: Props) {
                 </>
               ) : (
                 <>
-                  <div className="">
+                  <div className="flex flex-row gap-2">
+                    <button onClick={() => setGetStartedModal(true)}
+                            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center hover:text-green-600 rounded-lg hover:bg-white bg-green-600 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900 border-2 hover:border-transparent border-white text-white">
+                      Login
+                    </button>
                     <button onClick={() => setGetStartedModal(true)}
                             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-green-600 rounded-lg bg-white hover:bg-green-600 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900 border-2 border-transparent hover:border-white hover:text-white">
                       Get Started
@@ -94,7 +104,12 @@ export default function NgoPageLayout(props: Props) {
         </div>
       </Modal>
 
-      <div className={"container mx-auto py-5"}>{props.children}</div>
+      <div className="grid grid-cols-12 gap-2 h-[calc(100vh-5rem)]">
+        <div className="col-span-4 lg:col-span-2  h-[calc(100vh-5rem)] scrollbar">
+            <MenuAntDesign/>
+        </div>
+        <div className="col-span-8 lg:col-span-10 py-10 scrollbar">{props.children}</div>
+      </div>
     </div>
   );
 }

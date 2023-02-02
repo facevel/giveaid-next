@@ -1,39 +1,50 @@
-import "../styles/globals.css";
-import { ComponentType, useEffect, useState } from "react";
-import type { AppProps } from "next/app";
-import { ThemeProvider, useTheme } from "next-themes";
-import { Theme, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { UserContextProvider } from "src/firebase/authContext";
-import { AuthStateChanged } from "src/firebase/authState";
+import '../styles/globals.css'
+import {ComponentType, useEffect, useState} from "react";
+import type {AppProps} from "next/app";
+import {ThemeProvider, useTheme} from "next-themes";
+import {Theme, toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import {ConfigProvider} from "antd";
+import {UserContextProvider} from "src/firebase/authContext";
+import {AuthStateChanged} from "src/firebase/authState";
 
 type ComponentWithLayout = AppProps & {
-  Component: AppProps["Component"] & {
-    pageLayout?: ComponentType;
-  };
-};
+  Component: AppProps['Component'] & {
+    pageLayout?: ComponentType
+  }
+}
 
-export default function App({ Component, pageProps }: ComponentWithLayout) {
+export default function App({Component, pageProps}: ComponentWithLayout) {
+
   return (
     <UserContextProvider>
+      {/*@ts-ignore*/}
       <AuthStateChanged>
-        <ThemeProvider
-          attribute="class"
-          enableSystem={true}
-          forcedTheme={"light"}
-        >
-          <ToastThemeWrapper />
-          {/*<div className={'flex flex-row items-center gap-1 w-fit mx-auto'}>*/}
-          {/*    Toggle&nbsp;Theme&nbsp;-*/}
-          {/*    <DarkModeToggle/>*/}
-          {/*</div>*/}
-          {Component.pageLayout ? (
-            <Component.pageLayout {...pageProps}>
-              <Component {...pageProps} />
-            </Component.pageLayout>
-          ) : (
-            <Component {...pageProps} />
-          )}
+        <ThemeProvider attribute="class" enableSystem={true} forcedTheme={'light'}>
+          <ConfigProvider theme={{
+            "token": {
+              "colorPrimary": "#16a34a",
+              "wireframe": false
+            }
+          }}>
+            <ToastThemeWrapper/>
+            {/*<div className={'flex flex-row items-center gap-1 w-fit mx-auto'}>*/}
+            {/*    Toggle&nbsp;Theme&nbsp;-*/}
+            {/*    <DarkModeToggle/>*/}
+            {/*</div>*/}
+            {
+              Component.pageLayout ?
+                (
+                  <Component.pageLayout {...pageProps}>
+                    <Component {...pageProps}/>
+                  </Component.pageLayout>
+                )
+                :
+                (
+                  <Component {...pageProps}/>
+                )
+            }
+          </ConfigProvider>
         </ThemeProvider>
       </AuthStateChanged>
     </UserContextProvider>
@@ -41,7 +52,7 @@ export default function App({ Component, pageProps }: ComponentWithLayout) {
 }
 
 const ToastThemeWrapper = () => {
-  const { theme, systemTheme } = useTheme();
+  const {theme, systemTheme} = useTheme();
 
   const [toastTheme, setToastTheme] = useState<Theme>("dark");
 
