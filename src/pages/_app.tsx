@@ -5,6 +5,8 @@ import {ThemeProvider, useTheme} from "next-themes";
 import {Theme, toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {ConfigProvider} from "antd";
+import { UserContextProvider } from "src/firebase/authContext";
+import { AuthStateChanged } from "src/firebase/authState";
 
 type ComponentWithLayout = AppProps & {
     Component: AppProps['Component'] & {
@@ -14,32 +16,36 @@ type ComponentWithLayout = AppProps & {
 
 export default function App({Component, pageProps}: ComponentWithLayout) {
     return (
-        <ThemeProvider attribute="class" enableSystem={true} forcedTheme={'light'}>
-            <ConfigProvider theme={{
-                "token": {
-                    "colorPrimary": "#16a34a",
-                    "wireframe": false
-                }
-            }}>
-                <ToastThemeWrapper/>
-                {/*<div className={'flex flex-row items-center gap-1 w-fit mx-auto'}>*/}
-                {/*    Toggle&nbsp;Theme&nbsp;-*/}
-                {/*    <DarkModeToggle/>*/}
-                {/*</div>*/}
-                {
-                    Component.pageLayout ?
-                        (
-                            <Component.pageLayout {...pageProps}>
-                                <Component {...pageProps}/>
-                            </Component.pageLayout>
-                        )
-                        :
-                        (
-                            <Component {...pageProps}/>
-                        )
-                }
-            </ConfigProvider>
-        </ThemeProvider>
+        <UserContextProvider>
+            <AuthStateChanged>
+                <ThemeProvider attribute="class" enableSystem={true} forcedTheme={'light'}>
+                    <ConfigProvider theme={{
+                        "token": {
+                            "colorPrimary": "#16a34a",
+                            "wireframe": false
+                        }
+                    }}>
+                        <ToastThemeWrapper/>
+                        {/*<div className={'flex flex-row items-center gap-1 w-fit mx-auto'}>*/}
+                        {/*    Toggle&nbsp;Theme&nbsp;-*/}
+                        {/*    <DarkModeToggle/>*/}
+                        {/*</div>*/}
+                        {
+                            Component.pageLayout ?
+                                (
+                                    <Component.pageLayout {...pageProps}>
+                                        <Component {...pageProps}/>
+                                    </Component.pageLayout>
+                                )
+                                :
+                                (
+                                    <Component {...pageProps}/>
+                                )
+                        }
+                    </ConfigProvider>
+                </ThemeProvider>
+            </AuthStateChanged>
+        </UserContextProvider>
     );
 }
 
