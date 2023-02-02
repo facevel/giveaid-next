@@ -8,31 +8,31 @@ const messages = [{
     "message": "Thank you for your generosity."
 }, {
     "title": "Payment Confirmed",
-    "message": "Your donation has been successfully processed."
+    "message": "Your donations has been successfully processed."
 }, {
     "title": "Making an Impact",
-    "message": "We've received your donation! It's on its way to making a difference."
+    "message": "We've received your donations! It's on its way to making a difference."
 }, {
     "title": "Appreciation",
-    "message": "Thanks for your donation! We appreciate your support."
+    "message": "Thanks for your donations! We appreciate your support."
 }, {
     "title": "Tracking Impact",
-    "message": "Your donation has been added to the impact tracker. See the difference you're making!"
+    "message": "Your donations has been added to the impact tracker. See the difference you're making!"
 }, {
     "title": "Thank You!",
-    "message": "We're grateful for your donation and the difference it will make."
+    "message": "We're grateful for your donations and the difference it will make."
 }, {
     "title": "Confirmation",
-    "message": "Your donation has been confirmed. Thank you for your contribution."
+    "message": "Your donations has been confirmed. Thank you for your contribution."
 }, {
     "title": "Support Received",
-    "message": "Your donation will go a long way in supporting our cause. Thank you!"
+    "message": "Your donations will go a long way in supporting our cause. Thank you!"
 }, {
     "title": "Making a Difference",
-    "message": "With your donation, we're one step closer to creating a better world."
+    "message": "With your donations, we're one step closer to creating a better world."
 }, {
     "title": "Impact Acknowledged",
-    "message": "Your donation has been acknowledged and will be put to good use. Thank you!"
+    "message": "Your donations has been acknowledged and will be put to good use. Thank you!"
 }]
 
 

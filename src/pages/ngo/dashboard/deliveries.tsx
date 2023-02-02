@@ -3,15 +3,15 @@ import { NgoPageLayout } from "layouts";
 import { withProtectedForNGO } from "@/firebase/routes";
 
 
-const RequestsHistory = () => {
+const DeliveryManage = () => {
 
   return (
     <>
-      <h1>Requests History</h1>
+      <h1>Deliveries</h1>
     </>
   );
 };
 
-RequestsHistory.pageLayout = NgoPageLayout;
+DeliveryManage.pageLayout = NgoPageLayout;
 
-export default RequestsHistory;
+export default DeliveryManage;

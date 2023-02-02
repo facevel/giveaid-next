@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function NgoPageLayout(props: Props) {
-  const { user, logout, loggingIn } = useUserContext();
+  const { user, logout, loggingIn, isAuthLoading  } = useUserContext();
 
   const [getStartedModal, setGetStartedModal] = useState(false);
 
@@ -19,7 +19,7 @@ export default function NgoPageLayout(props: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
-    if(user){
+    if( !isAuthLoading && user){
       setGetStartedModal(false)
       //after login the user will be sent to dashboard
       router.push('/ngo/dashboard')
@@ -29,13 +29,14 @@ export default function NgoPageLayout(props: Props) {
   useEffect(()=>{
     //if router.pathname is /ngo/dashboard or anything after that then check if user is logged in or not
     if(router.pathname.includes('/ngo/dashboard')){
-      if(!user){
+      if(!isAuthLoading && !user){
+        console.log('user is not logged in', user, )
         router.push('/ngo').then(() => setLoading(false))
         return
       }
     }
     setLoading(false)
-  },[user, router.pathname])
+  },[user, router.pathname, loggingIn])
 
   return (
     <div className={"min-h-screen"}>
@@ -120,11 +121,11 @@ export default function NgoPageLayout(props: Props) {
         </div>
       </Modal>
 
-      <div className="grid grid-cols-12 gap-2 h-[calc(100vh-5rem)]">
-        <div className="col-span-4 lg:col-span-2  h-[calc(100vh-5rem)] scrollbar">
+      <div className="grid grid-cols-12 h-[calc(100vh-5rem)]">
+        <div className="col-span-4 lg:col-span-2 h-[calc(100vh-5rem)] scrollbar">
             <MenuAntDesign/>
         </div>
-        <div className="col-span-8 lg:col-span-10 py-10 scrollbar">{props.children}</div>
+        <div className="col-span-8 lg:col-span-10 p-5 scrollbar">{props.children}</div>
       </div>
     </div>
   );

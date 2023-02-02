@@ -3,15 +3,17 @@ import { NgoPageLayout } from "layouts";
 import { withProtectedForNGO } from "@/firebase/routes";
 
 
-const Beneficiary = () => {
+const Users = () => {
 
   return (
     <>
-      <h1>Beneficiary of Requests</h1>
+      <h1>
+        NGO Users
+      </h1>
     </>
   );
 };
 
-Beneficiary.pageLayout = NgoPageLayout;
+Users.pageLayout = NgoPageLayout;
 
-export default Beneficiary;
+export default Users;

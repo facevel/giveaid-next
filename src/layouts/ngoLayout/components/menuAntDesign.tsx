@@ -31,34 +31,23 @@ const items: MenuItem[] = [
   getItem('Requests', "requests", <GoTasklist />, [
 
     getItem(<Link href={'/ngo/dashboard/requests/create'}>Create Request</Link>, "/ngo/dashboard/requests/create"),
-    getItem(<Link href={'/ngo/dashboard/requests/history'}>Request History</Link>, "/ngo/dashboard/requests/history"),
-    getItem(<Link href={'/ngo/dashboard/requests/beneficiary'}>Beneficiary Information</Link>, "ngo/dashboard/requests/beneficiary"),
+    getItem(<Link href={'/ngo/dashboard/requests/manage'}>Manage Requests</Link>, "/ngo/dashboard/requests/manage"),
 
   ]),
-  getItem("Donations", "donation", <FaBox />, [
+  getItem("Donations", "donations", <FaBox />, [
 
     getItem(<Link href={"/ngo/dashboard/donations/track"}>Tracking</Link>, "/ngo/dashboard/donations/track"),
-    getItem(<Link href={'/ngo/dashboard/donations/donors'}>Donors</Link>, "/ngo/dashboard/donation/donors"),
-    getItem(<Link href={'/ngo/dashboard/donation/inventory'}>Donation Inventory</Link>, "/ngo/dashboard/donation/inventory"),
+    getItem(<Link href={'/ngo/dashboard/donations/donors'}>Donors</Link>, "/ngo/dashboard/donations/donors"),
+    getItem(<Link href={'/ngo/dashboard/donations/inventory'}>Donation Inventory</Link>, "/ngo/dashboard/donations/inventory"),
 
   ]),
-  getItem("Delivery", "delivery", <RiTruckFill />, [
-
-    getItem(<Link href={'/ngo/dashboard/deliver/manage'}>Delivery Management</Link>, "/ngo/dashboard/delivery/manage"),
-    getItem(<Link href={'/ngo/dashboard/deliver/history'}>Delivery History</Link>, "/ngo/dashboard/delivery/history"),
-
-  ]),
-  getItem("Reports", "reports", <HiOutlinePresentationChartLine />, [
-
-    getItem(<Link href={'/ngo/dashboard/reports/all'}>All Reports</Link>, "/ngo/dashboard/reports/all"),
-    getItem(<Link href={'/ngo/dashboard/reports/analytics'}>Analytics</Link>, "/ngo/dashboard/reports/analytics"),
-
-  ]),
+  getItem(<Link href={"/ngo/dashboard/deliveries"}>Deliveries</Link>, "deliveries", <RiTruckFill />),
+  getItem(<Link href={"/ngo/dashboard/reports"}>Reports</Link>, "reports", <HiOutlinePresentationChartLine />),
   getItem("Settings", "setting", <SettingOutlined />, [
 
-    getItem(<Link href={'/ngo/dashboard/settings/user'}>User Management</Link>, "/ngo/dashboard/settings/user"),
-    getItem(<Link href={'/ngo/dashboard/notifications'}>Notification System</Link>, "/ngo/dashboard/notifications"),
-    getItem(<Link href={'/ngo/dashboard/security'}>Security and Privacy</Link>, "/ngo/dashboard/security"),
+    getItem(<Link href={'/ngo/dashboard/settings/general'}>General Settings</Link>, "/ngo/dashboard/settings/general"),
+    getItem(<Link href={'/ngo/dashboard/settings/users'}>User Management</Link>, "/ngo/dashboard/settings/users"),
+    getItem(<Link href={'/ngo/dashboard/settings/notifications'}>Notification System</Link>, "/ngo/dashboard/settings/notifications"),
 
   ]),
 ];
