@@ -30,7 +30,7 @@ const items: MenuItem[] = [
   getItem(<Link href={'/ngo/dashboard'}>Overview</Link>, "/ngo/dashboard", <RiHomeFill />),
   getItem('Requests', "requests", <GoTasklist />, [
 
-    getItem(<Link href={'/ngo/dashboard/requests/manage'}>Manage Request</Link>, "/ngo/dashboard/requests/manage"),
+    getItem(<Link href={'/ngo/dashboard/requests/create'}>Create Request</Link>, "/ngo/dashboard/requests/create"),
     getItem(<Link href={'/ngo/dashboard/requests/history'}>Request History</Link>, "/ngo/dashboard/requests/history"),
     getItem(<Link href={'/ngo/dashboard/requests/beneficiary'}>Beneficiary Information</Link>, "ngo/dashboard/requests/beneficiary"),
 
