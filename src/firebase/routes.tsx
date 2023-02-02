@@ -1,25 +1,31 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { JSXElementConstructor, ReactElement, useEffect, useState } from "react";
 import { useUserContext } from "./authContext";
 import { Loading } from "../components";
 import { useRouter } from "next/router";
 
 import { AuthStateChangedProtected } from "./authState";
 
-export const withPublic = (Component: ReactElement) => {
+export const withPublic = (Component: () => JSX.Element) => {
   return function WithPublic(props: any) {
     const useauth = useUserContext();
     // @ts-ignore
-    return <Component useauth={useauth} {...props} />;
+    return (
+      // @ts-ignore
+      <Component.pageLayout>
+        <Component useauth={useauth} {...props} />
+        {/*@ts-ignore*/}
+      </Component.pageLayout>
+    );
   };
 };
 
-export function withProtected(Component: ReactElement) {
+export function withProtected(Component: ()=>JSX.Element) {
   const WithProtected = (props: any) => {
     const useauth = useUserContext();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-      if (!(useauth.user != null && !useauth.user?.isAnonymous)) {
+      if (!(useauth.user != null)) {
         router.push("/login");
         console.log(useauth);
       } else {
@@ -28,13 +34,54 @@ export function withProtected(Component: ReactElement) {
     }, [useauth.user]);
 
     // @ts-ignore
-    return loading ? <Loading /> : <Component useauth={useauth} {...props} />;
+    return loading ?
+      <Loading />
+      :
+      // @ts-ignore
+      <Component.pageLayout>
+        <Component useauth={useauth} {...props} />
+        {/*@ts-ignore*/}
+      </Component.pageLayout>
   };
   return function Component() {
     return (
-      // @ts-ignore
       <AuthStateChangedProtected>
         <WithProtected />
+      </AuthStateChangedProtected>
+    );
+  };
+}
+
+export function withProtectedForNGO(Component: () => JSX.Element) {
+  const WithProtected = (props: any) => {
+    const useauth = useUserContext();
+    const router = useRouter();
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+      if (!(useauth.user != null)) {
+        router.push("/ngo");
+        console.log(useauth);
+      } else {
+        setLoading(false);
+      }
+    }, [useauth.user]);
+
+    return loading ?
+      <Loading />
+      :
+      // @ts-ignore
+      <Component.pageLayout>
+        <Component useauth={useauth} {...props} />
+      {/*@ts-ignore*/}
+      </Component.pageLayout>
+  };
+  return function Component({...props}) {
+    useEffect(() => {
+    }, [])
+    return (
+      // @ts-ignore
+      <AuthStateChangedProtected>
+        <WithProtected {...props}/>
       </AuthStateChangedProtected>
     );
   };

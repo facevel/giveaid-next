@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { Loading } from "components";
 
 type Props = {
-  children: React.ReactNode;
+  children: React.ReactElement;
 };
 
 export function AuthStateChanged({ children }: Props) {

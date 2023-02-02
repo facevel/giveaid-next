@@ -1,5 +1,5 @@
 import React from "react";
-import { Chart } from "chart.js";
+import { Chart, registerables } from 'chart.js';
 
 export default function CardLineChart() {
   React.useEffect(() => {
@@ -105,8 +105,14 @@ export default function CardLineChart() {
     };
     // @ts-ignore
     var ctx = document.getElementById("line-chart").getContext("2d");
+    Chart.register(...registerables);
     // @ts-ignore
-    window.myLine = new Chart(ctx, config);
+    const chart = new Chart(ctx, config);
+    // @ts-ignore
+    window.myLine = chart;
+    return () =>{
+      chart.destroy();
+    }
   }, []);
   return (
     <>

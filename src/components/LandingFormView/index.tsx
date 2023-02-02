@@ -14,25 +14,25 @@ export const LandingFormView = () => {
 
     return (
         <div className={"container mx-auto flex flex-col justify-center items-center "}>
-            {modalOpen &&
-                <Modal title={"Let's Start Donating"} setModalState={setModalOpen} modalState={modalOpen}>
-                    <div className="py-3 flex flex-col gap-5 items-center justify-center">
-                        <p className="max-w-full text-center text-md">
-                            Keep our site spam-free by logging in
-                        </p>
-                        <GoogleButton/>
-                        <p className="max-w-sm text-center text-sm">
-                            By creating an account, you agree to Giveaid's <a href="/terms-of-service"
-                                                                                    className="text-blue-500 hover:underline font-semibold">Terms
-                            of Service</a>, <a href="/privacy-policy"
-                                               className="text-blue-500 hover:underline font-semibold">Privacy
-                            Policy</a> and <a href="/acceptable-use"
-                                              className="text-blue-500 hover:underline font-semibold">Acceptable
-                            Use Policy</a>.
-                        </p>
-                    </div>
-                </Modal>
-            }
+
+            <Modal title={"Let's Start Donating"} setModalState={setModalOpen} modalState={modalOpen}>
+                <div className="py-3 flex flex-col gap-5 items-center justify-center">
+                    <p className="max-w-full text-center text-md">
+                        Keep our site spam-free by logging in
+                    </p>
+                    <GoogleButton/>
+                    <p className="max-w-sm text-center text-sm">
+                        By creating an account, you agree to Giveaid's <a href="/terms-of-service"
+                                                                                className="text-blue-500 hover:underline font-semibold">Terms
+                        of Service</a>, <a href="/privacy-policy"
+                                           className="text-blue-500 hover:underline font-semibold">Privacy
+                        Policy</a> and <a href="/acceptable-use"
+                                          className="text-blue-500 hover:underline font-semibold">Acceptable
+                        Use Policy</a>.
+                    </p>
+                </div>
+            </Modal>
+
             <section className="bg-white dark:bg-gray-900 min-h-screen">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
                     <a href="#"

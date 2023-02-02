@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react";
-import { NgoPageLayout } from "@/layouts";
-import { CardBarChart, CardLineChart } from "@/components";
+import { NgoPageLayout } from "layouts";
+import { CardBarChart, CardLineChart } from "components";
+import { withProtectedForNGO } from "@/firebase/routes";
 
 const NgoPage = () => {
   return (
@@ -136,4 +137,5 @@ const NgoPage = () => {
 
 NgoPage.pageLayout = NgoPageLayout;
 
-export default NgoPage;
+
+export default withProtectedForNGO(NgoPage);
