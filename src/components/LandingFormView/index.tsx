@@ -1,14 +1,17 @@
 import React, {useEffect} from "react";
 import {GoogleButton, Modal} from "components";
 import {useUserContext} from "src/firebase/authContext";
+import {useRouter} from "next/router";
 
 export const LandingFormView = () => {
+    const router = useRouter()
     const [modalOpen, setModalOpen] = React.useState(false)
     const {user} = useUserContext();
 
     useEffect(() => {
         if (user) {
             setModalOpen(false)
+            router.push("/donate")
         }
     }, [user])
 
