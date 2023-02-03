@@ -55,8 +55,8 @@ export const TrackingView = ({setSearch}: any) => {
                     </div>
                 </div>
                 <div className={"flex flex-col justify-end items-end pb-2"}>
-                    <div className={"text-xl pt-1 font-semibold"}>Tracking ID</div>
-                    <a className={"text-gray-600"} href={"https://reddit.com/r/sounding"}>133769240</a>
+                    <div className={"text-xl pt-1 font-semibold"}>Tracking</div>
+                    <a className={"text-gray-600"} href={"https://reddit.com/r/sounding"}>12345678</a>
                 </div>
             </div>
             {/*Timeline Part*/}

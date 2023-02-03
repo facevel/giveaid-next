@@ -3,6 +3,7 @@ import {createContext, useContext, useState} from "react";
 import {GoogleAuthProvider, signInAnonymously, signInWithPopup, signOut, User,} from "firebase/auth";
 import {auth, db} from ".";
 import {doc, getDoc, setDoc} from "firebase/firestore";
+import {nanoid} from "nanoid";
 
 interface UserContext {
     user: User | object | undefined | null;
@@ -114,7 +115,7 @@ export const UserContextProvider = (props: any) => {
                             console.log("User exists")
                         } else {
                             console.log("User does not exist")
-                            await setDoc(doc(db, "users", user.uid), {
+                            const data = {
                                 name: user.displayName,
                                 email: user.email,
                                 photoURL: user.photoURL,
@@ -122,7 +123,12 @@ export const UserContextProvider = (props: any) => {
                                 type: type,
                                 createdAt: new Date().getTime(),
                                 updatedAt: new Date().getTime(),
-                            })
+                            }
+                            if (type === "ngo") {
+                                // @ts-ignore
+                                data["ngo_id"] = nanoid(10)
+                            }
+                            await setDoc(doc(db, "users", user.uid), data)
                         }
                         resolve(user);
                     } else {
