@@ -36,7 +36,7 @@ export default function NgoPageLayout(props: Props) {
       }
     }
     setLoading(false)
-  },[user, router.pathname, loggingIn])
+  },[user, router, loggingIn])
 
   return (
     <div className={"min-h-screen"}>

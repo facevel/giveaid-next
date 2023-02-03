@@ -1,111 +1,285 @@
-import React from "react";
-import {Formik, useFormik} from 'formik';
-import {NgoPageLayout} from "layouts";
-import * as Yup from 'yup';
+import React, { useState } from "react";
+import { NgoPageLayout } from "layouts";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/firebase";
+import { message } from "antd";
+import { Timestamp } from "firebase/firestore";
+import Link from "next/link";
+import { nanoid } from "nanoid";
 
+
+interface requestForm {
+  requestId: string;
+  title: string;
+  requestDate: Timestamp | string;
+  fulfillmentMaxDate: Timestamp | string;
+  requestedUnits: number;
+  fulfilledUnits: number;
+  requestedItem:
+    | "Clothing"
+    | "Electronics"
+    | "Toys"
+    | "Books"
+    | "Food"
+    | "Medical";
+  priority: number;
+  ngoId: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    geohash: string;
+    address: string;
+  };
+}
+
+const NGORegisteredLocation = {
+  latitude: 28.7041,
+  longitude: 77.1025,
+  geohash: "28.7041,77.1025",
+  address: "Delhi"
+};
+
+const ngoId = 'testNgoId';
+
+
+/*
+ * Clothing - Cloths, Shoes, Socks, Undergarments, etc
+ * Electronics - Mobiles, Laptops, Tablets, etc
+ * Toys - Toys, Games, etc
+ * Books - Books, Stationary, etc
+ * Food - Food, Groceries, etc
+ * Medical - Medical Supplies, etc
+ * */
 
 function App() {
 
-    const formik = useFormik({
+  const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-        initialValues: {
-            requestTitle: '',
-            requestDescript: '',
-            startDate: '',
-            endDate: ''
-        },
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
 
-        validationSchema: Yup.object({
-            requestTitle: Yup.string().max(20, 'Must be 20 character or less.').required('Required.'),
-            requestDescript: Yup.string().required()
+    //convert form data to json
+    const formData = new FormData(e.target);
+    // @ts-ignore
+    const requestData: requestForm = Object.fromEntries(formData.entries());
+    requestData.location = NGORegisteredLocation;
+    requestData.fulfilledUnits = 0;
+    //change requestDate and fulfillmentMaxDate to firebase timestamp
+    // @ts-ignore
+    requestData.requestDate = Timestamp.fromDate(new Date(requestData.requestDate));
+    requestData.ngoId = ngoId;
+    requestData.requestId = nanoid(10);
 
-        }),
+    // @ts-ignore
+    requestData.fulfillmentMaxDate = Timestamp.fromDate(new Date(requestData.fulfillmentMaxDate));
+    console.log(requestData);
+    const docRef = await addDoc(collection(db, "requests"), { ...requestData });
+    console.log("Document written with ID: ", docRef.id);
+    setIsSubmitted(true);
+  } catch(error)
+  {
+    console.log({ error });
+    // @ts-ignore
+    message.error(error?.message || "Something went wrong");
+  }finally {
+    setLoading(false);
+  }
+};
 
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-        },
+// const handleSubmit = (e: any) => {
+//   e.preventDefault();
+//   //convert form data to json
+//   const formData = new FormData(e.target);
+//   // @ts-ignore
+//   const data: requestForm = Object.fromEntries(formData.entries());
+//   data.location = NGORegisteredLocation;
+//   data.fulfilled = false;
+//   console.log(data);
+// };
 
-    });
+return (
+  <div className={"grid grid-cols-12 gap-2"}>
+    <div
+      className={
+        "relative col-span-12 flex h-52 w-full items-center justify-center overflow-hidden rounded-xl border-2 border border-green-600 bg-green-50"
+      }
+    >
+      <img
+        src={"/banner-ngo.jpg"}
+        alt={"ngo-banner"}
+        className={"absolute w-full grayscale opacity-50  h-full object-cover"}
+      />
+      <div className={"absolute top-0 left-0 w-full p-5 shadow-inner shadow-lg"}>
+          <span className={"text-green text-3xl font-bold"}>
+            Empowering communities,
+            <br />
+            inspiring change:
+          </span>
+        <br />
+        <span className={"text-green text-3xl font-bold"}>
+            Let&apos;s make a difference together.
+          </span>
+        <img src={"/giveaid-logo-green.svg"} alt={"giveaid"} className={"h-10 mt-2"} />
+      </div>
+    </div>
 
-    return (<div className={"max-w-md mx-auto px-6 py-6 mt-6 rounded-lg border border-gray-200 bg-white"}>
-            <form className={"mx-auto grid grid-cols-2 gap-2 items-center justify-between"}
-                  onSubmit={formik.handleSubmit}>
-                <label className={"justify-self-end"} htmlFor={"requestTitle"}>Request Title</label>
-                <div>
-                <input
-                    className={"rounded-lg border-gray-300"}
-                    id={"requestTitle"}
-                    name={"requestTitle"}
-                    type={"text"}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.requestTitle}
-                />
-                {formik.touched.requestTitle && formik.errors.requestTitle ? (
+    <div
+      className={
+        "col-span-12 rounded-lg border-2 border border-gray-200 p-5"
+      }
+    >
+      {
+        isSubmitted ? (
+          <div className={"flex flex-col gap-1 items-center justify-center"}>
+            <div className={'h-40 flex items-center justify-center'}>
+              <img src={"/success.svg"} alt={"success"} className={"h-20"} />
+            </div>
+            <span className={"text-2xl font-bold text-green-600"}>
+              Request submitted successfully
+            </span>
+            <span className={"text-lg text-gray-500"}>
+              Your request has been submitted successfully.
+            </span>
 
-                    <div className={"text-xs font-light text-red-600"}>{formik.errors.requestTitle}</div>
+          </div>
+        )
+          :
+          (
+            <form onSubmit={handleSubmit} className={"grid grid-cols-8 gap-x-5 gap-y-2"}>
+        <div className="col-span-8 flex flex-col">
+          <label
+            htmlFor="title"
+            className=" text-lg font-medium text-gray-900 dark:text-white"
+          >
+            Title of the request
+          </label>
+          <input
+            placeholder="Event/Drive Name or Donation Name"
+            type="text"
+            id="title"
+            name="title"
+            required={true}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-lg text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+          />
+        </div>
+        <div className="col-span-4 flex flex-col">
+          <label
+            htmlFor="requestDate"
+            className=" text-lg font-medium text-gray-900 dark:text-white"
+          >
+            Request Date
+          </label>
+          <input
+            type="date"
+            id="requestDate"
+            defaultValue={new Date().toISOString().split("T")[0]}
+            name="requestDate"
+            required={true}
+            className={
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-lg text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+            }
+          />
+        </div>
+        <div className="col-span-4 flex flex-col">
+          <label
+            htmlFor="fulfillmentMaxDate"
+            className=" text-lg font-medium text-gray-900 dark:text-white"
+          >
+            Fulfillment Max Date
+          </label>
+          <input
+            type="date"
+            id="fulfillmentMaxDate"
+            name="fulfillmentMaxDate"
+            required={true}
+            className={
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-lg text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+            }
+          />
+        </div>
+        <div className="col-span-4 flex flex-col">
+          <label
+            htmlFor="requestedUnits"
+            className=" text-lg font-medium text-gray-900 dark:text-white"
+          >
+            Requested Units
+          </label>
+          <input
+            type="number"
+            id="requestedUnits"
+            name="requestedUnits"
+            max={200}
+            required={true}
+            className={
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-lg text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+            }
+          />
+        </div>
+        <div className="col-span-4 flex flex-col">
+          <label
+            htmlFor="requestedItem"
+            className=" text-lg font-medium text-gray-900 dark:text-white"
+          >
+            Requested Item
+          </label>
+          <select
+            id="requestedItem"
+            name="requestedItem"
+            required={true}
+            className={
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-lg text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+            }
+          >
+            <option value="Clothing">Clothing</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Toys">Toys</option>
+            <option value="Books">Books</option>
+            <option value="Food">Food</option>
+            <option value="Medical">Medical</option>
+          </select>
+        </div>
+        <div className="col-span-4 flex flex-col">
+          <label
+            htmlFor="priority"
+            className=" text-lg font-medium text-gray-900 dark:text-white"
+          >
+            Priority
+          </label>
+          <select
+            id="priority"
+            name="priority"
+            required={true}
+            className={
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-lg text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+            }
+          >
+            <option value="10">Low</option>
+            <option value="50">Medium</option>
+            <option value="100">High</option>
+          </select>
+        </div>
+        <div className="col-span-4 flex flex-col justify-end">
+          <button
+            type="submit"
+            className="rounded-lg bg-green-500 py-3 px-4 font-bold text-white hover:bg-green-600"
+          >
+            {loading ? "Adding Request..." : "Submit"}
+          </button>
+        </div>
+      </form>
+          )
+      }
+    </div>
 
-                ) : null}
-                </div>
+    <div className={"col-span-8"}>
 
-                <label className={"justify-self-end"} htmlFor={"requestDescript"}>Request Description</label>
-                <div>
-                <input
-                    className={"rounded-lg border-gray-300"}
-
-                    id={"requestDescript"}
-                    name={"requestDescript"}
-                    type={"text"}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.requestDescript}
-                />
-                    {formik.touched.requestTitle && formik.errors.requestTitle ? (
-
-                        <div className={"text-xs font-light text-red-600"}>{formik.errors.requestTitle}</div>
-
-                    ) : null}
-                </div>
-
-                <label className={"justify-self-end"} htmlFor={"startDate"}>Earliest Receiving Date</label>
-                <div>
-                <input
-                    className={"rounded-lg border-gray-300"}
-                    id={"startDate"}
-                    name={"startDate"}
-                    type={"date"}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.startDate}
-                />
-                    {formik.touched.endDate && formik.errors.endDate ? (
-
-                        <div className={"text-xs font-light text-red-600"}>{formik.errors.endDate}</div>
-
-                    ) : null}
-                </div>
-
-                <label className={"justify-self-end"} htmlFor={"endDate"}>Latest Receiving Date</label>
-                <div>
-                <input
-                    className={"rounded-lg border-gray-300"}
-                    id={"endDate"}
-                    name={"endDate"}
-                    type={"date"}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.endDate}
-                />
-                    {formik.touched.endDate && formik.errors.endDate ? (
-
-                        <div className={"text-xs font-light text-red-600"}>{formik.errors.endDate}</div>
-
-                    ) : null}
-                </div>
-            </form>
-    </div>)
+    </div>
+  </div>
+);
 }
 
-
-App.pageLayout = NgoPageLayout
+App.pageLayout = NgoPageLayout;
 export default App;

@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { NgoPageLayout } from "layouts";
 import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { db } from "@/firebase";
+import { getDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
+import { format, parseISO } from "date-fns";
 
 interface DataType {
   key: string;
   title: string;
-  createdAt: string;
-  region: string;
-  tags: string[];
+  requestDate: string;
+  fulfillmentMaxDate: string;
+  requestedUnits : number;
+  requestedItem: string;
+  fulfilled: boolean;
+  priority: number;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -21,134 +27,113 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: 'Request Date',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
+    dataIndex: 'requestDate',
+    key: 'requestDate',
   },
   {
-    title: 'Region',
-    dataIndex: 'region',
-    key: 'region',
+    title: 'Last Date',
+    dataIndex: 'fulfillmentMaxDate',
+    key: 'fulfillmentMaxDate',
   },
   {
     title: 'Priority Level',
     key: 'priority',
     dataIndex: 'priority',
-    render: (_, { tags }) => (
+    render: (_, { priority }) => (
       <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        {
+          priority > 50 &&
+          <Tag color="red">
+            High
+          </Tag>
+        }
+        {
+          priority == 50 &&
+          <Tag color="orange">
+            Medium
+          </Tag>
+        }
+        {
+          priority < 50 &&
+          <Tag color="green">
+            Low
+          </Tag>
+        }
       </>
     ),
   },
   {
-    title: 'Action',
-    key: 'action',
-    render: () => (
-      <Space size="middle">
-        <a>Manage</a>
-        <a>Delete</a>
-      </Space>
-    ),
+    title: 'Requested Units',
+    key: 'requestedUnits',
+    dataIndex: 'requestedUnits',
+  },
+  {
+    title: 'Fulfilled',
+    key: 'fulfilledUnits',
+    dataIndex: 'fulfilledUnits',
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: '1',
-    title: 'Clothing for Orphanage',
-    createdAt: '22 Feb 2022',
-    region: 'Mumbai',
-    tags: ['clothing', 'orphanage']
-  },
-  {
-    key: '2',
-    title: 'Books for Rural School',
-    createdAt: '25 Feb 2022',
-    region: 'Delhi',
-    tags: ['books', 'education']
-  },
-  {
-    key: '3',
-    title: 'Food for Hunger Relief',
-    createdAt: '01 Mar 2022',
-    region: 'Bangalore',
-    tags: ['food', 'hunger']
-  },
-  {
-    key: '4',
-    title: 'Blankets for Homeless Shelters',
-    createdAt: '05 Mar 2022',
-    region: 'Hyderabad',
-    tags: ['blankets', 'homeless']
-  },
-  {
-    key: '5',
-    title: 'Clothing for Slums Program',
-    createdAt: '10 Mar 2022',
-    region: 'Chennai',
-    tags: ['clothing', 'women']
-  },
-  {
-    key: '6',
-    title: 'School Supplies for Rural Students',
-    createdAt: '15 Mar 2022',
-    region: 'Ahmedabad',
-    tags: ['school supplies', 'education']
-  },
-  {
-    key: '7',
-    title: 'Medical Supplies for Rural Health Center',
-    createdAt: '20 Mar 2022',
-    region: 'Pune',
-    tags: ['medical supplies', 'health']
-  },
-  {
-    key: '8',
-    title: 'Books for Rural Library',
-    createdAt: '25 Mar 2022',
-    region: 'Jaipur',
-    tags: ['books', 'library']
-  },
-  {
-    key: '9',
-    title: 'Food for Disaster Relief',
-    createdAt: '30 Mar 2022',
-    region: 'Lucknow',
-    tags: ['food', 'disaster']
-  },
-  {
-    key: '10',
-    title: 'Blankets for Winter Relief',
-    createdAt: '05 Apr 2022',
-    region: 'Kolkata',
-    tags: ['blankets', 'winter']
-  }
-];
 
 
 const RequestsHistory = () => {
+  const [requestData, setRequestData] = useState<DataType[]>([]);
+
+  const getData = () => {
+    return new Promise(async (resolve, reject) => {
+      const collectionRef = collection(db, "requests");
+      const q = query(collectionRef, where("ngoId", "==", "testNgoId"));
+      const docSnap = await getDocs(q);
+      resolve(docSnap.docs.map((doc) => doc.data()));
+    });
+  };
+  //get data from firestore and set to data
+  useEffect(() => {
+    //get data from firestore and set to data
+    getData().then((data: any) => {
+      console.log(data);
+      data.map((items: any, index: any) => {
+        // console.log(items.fulfillmentMaxDate.seconds);
+
+        setRequestData((prevData) => [
+          ...prevData,
+          {
+            key: index.toString(),
+            title: items.title,
+            requestDate: format(
+              new Date(items.requestDate.seconds*1000),
+              "dd MMM yyyy, h a"
+            ),
+            fulfillmentMaxDate: format(
+              new Date(items.fulfillmentMaxDate.seconds*1000),
+              "dd MMM yyyy, h a"
+            ),
+            requestedUnits: items.requestedUnits,
+            requestedItem: items.requestedItem,
+            fulfilled: items.fulfilled,
+            priority: items.priority,
+            fulfilledUnits: items.fulfilledUnits,
+          },
+        ]);
+      });
+    });
+  }, []);
 
   return (
-    <div className={'w-full'}>
-      <div className={'my-6'}>
-      <h1 className={'text-3xl '}>Requests History</h1>
-
+    <div className={"w-full"}>
+      <div className={"my-6"}>
+        <h1 className={"text-3xl "}>Requests History</h1>
       </div>
 
       <Table
         columns={columns}
-        dataSource={data}
-        className={'w-full'}
-        pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '15']}}
+        dataSource={requestData}
+        className={"w-full"}
+        pagination={{
+          defaultPageSize: 5,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "15"],
+        }}
       />
     </div>
   );
