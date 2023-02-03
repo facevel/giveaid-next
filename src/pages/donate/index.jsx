@@ -410,8 +410,8 @@ const SelectionStep = ({setFormSubmitted, setDonationData, donationData, lat, ln
 
             for (const snap of snapshots) {
                 for (const doc of snap.docs) {
-                    const lat = doc.get('location.latitude');
-                    const lng = doc.get('location.longitude');
+                    const lat = doc.get('location.lat');
+                    const lng = doc.get('location.lng');
 
                     // We have to filter out a few false positives due to GeoHash
                     // accuracy, but most will match
