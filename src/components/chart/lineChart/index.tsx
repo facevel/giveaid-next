@@ -37,7 +37,7 @@ export default function CardLineChart() {
         responsive: true,
         title: {
           display: false,
-          text: "Sales Charts",
+          text: "Donations Chart",
           fontColor: "white",
         },
         legend: {
