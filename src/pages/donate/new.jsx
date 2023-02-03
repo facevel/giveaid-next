@@ -1,22 +1,28 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {GoogleMap, MarkerF, useJsApiLoader} from '@react-google-maps/api';
 import Autocomplete from "react-google-autocomplete";
-import {Stepper, useConfetti} from "../components";
+import {Stepper, useConfetti} from "../../components";
 import {Button, Card, message, Skeleton} from "antd";
-import {RiBook2Fill, RiHome5Fill, RiMapPin3Fill, RiPencilRulerFill} from "react-icons/ri";
+import {RiHome5Fill, RiMapPin3Fill, RiPencilRulerFill} from "react-icons/ri";
 import {MdChair, MdToys,} from "react-icons/md";
 import {IoShirt,} from "react-icons/io5";
 import {ImSpoonKnife,} from "react-icons/im";
-import {GiConverseShoe,} from "react-icons/gi";
+import {GiConverseShoe, GiForkKnifeSpoon,} from "react-icons/gi";
 import {BsLaptop,} from "react-icons/bs";
 import {MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import Meta from "antd/lib/card/Meta";
 import TextArea from "antd/lib/input/TextArea";
-import {db} from "../firebase";
+import {db} from "../../firebase";
 import {addDoc, collection} from "firebase/firestore";
+import {distanceBetween, geohashQueryBounds} from "geofire-common";
+import {endAt, getDocs, orderBy, query, startAt} from "@firebase/firestore";
+import {FaBook, FaBriefcaseMedical} from "react-icons/fa";
+import {FiTrendingUp} from "react-icons/fi";
+import {HiComputerDesktop} from "react-icons/hi2";
 
 
 const NEXT_PUBLIC_GOOGLE_MAP_KEY = "AIzaSyCgYjkne3uY7GrA0TcAGIGqof4tmCYkr9I"
+
 const LocationStep = ({donationData, setDonationData}) => {
 
     /* Navigator */
@@ -190,14 +196,13 @@ const LocationStep = ({donationData, setDonationData}) => {
                    className={"text-center text-sm text-red-500 underline cursor-pointer px-4 mb-4"}>Retry</p>
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    center={location ? location : center}
+                    center={center}
                     zoom={15}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                 >
                     <MarkerF
                         draggable={true}
-                        onDra
                         onDragEnd={onMarkerDragEnd}
                         onLoad={onLoad}
                         position={location ? location : center}
@@ -211,6 +216,260 @@ const LocationStep = ({donationData, setDonationData}) => {
     </div>)
 }
 
+
+const data = [
+    {
+        "title": "Clothing for Children",
+        "requestDate": "2023-02-03T00:00:00.000Z",
+        "fulfillmentMaxDate": "2023-03-03T00:00:00.000Z",
+        "location": {
+            "latitude": 28.5355,
+            "longitude": 77.3910,
+            "geohash": "r3gx2r2g05n5",
+            "address": "Noida, India"
+        },
+        "requestedUnits": 100,
+        "requestedItem": "Clothing",
+        "priority": 1,
+        "fulfilled": false
+    },
+    {
+        "title": "Electronics for Schools",
+        "requestDate": "2022-12-15T00:00:00.000Z",
+        "fulfillmentMaxDate": "2023-01-15T00:00:00.000Z",
+        "location": {
+            "latitude": 28.5355,
+            "longitude": 77.3910,
+            "geohash": "r3gx2r2g05n5",
+            "address": "Noida, India"
+        },
+        "requestedUnits": 50,
+        "requestedItem": "Electronics",
+        "priority": 2,
+        "fulfilled": true
+    },
+    {
+        "title": "Toys for Children",
+        "requestDate": "2022-11-01T00:00:00.000Z",
+        "fulfillmentMaxDate": "2022-12-01T00:00:00.000Z",
+        "location": {
+            "latitude": 28.5355,
+            "longitude": 77.3910,
+            "geohash": "r3gx2r2g05n5",
+            "address": "Noida, India"
+        },
+        "requestedUnits": 200,
+        "requestedItem": "Toys",
+        "priority": 3,
+        "fulfilled": true
+    },
+    {
+        "title": "Books for Libraries",
+        "requestDate": "2022-10-10T00:00:00.000Z",
+        "fulfillmentMaxDate": "2022-11-10T00:00:00.000Z",
+        "location": {
+            "latitude": 28.5355,
+            "longitude": 77.3910,
+            "geohash": "r3gx2r2g05n5",
+            "address": "Noida, India"
+        },
+        "requestedUnits": 300,
+        "requestedItem": "Books",
+        "priority": 4,
+        "fulfilled": false
+    },
+    {
+        "title": "Food for the Homeless",
+        "requestDate": "2022-09-01T00:00:00.000Z",
+        "fulfillmentMaxDate": "2022-10-01T00:00:00.000Z",
+        "location": {
+            "latitude": 28.5355,
+            "longitude": 77.3910,
+            "geohash": "r3gx2r2g05n5",
+            "address": "Noida, India"
+        },
+        "requestedUnits": 300,
+        "requestedItem": "Books",
+        "priority": 4,
+        "fulfilled": false
+    }
+]
+const SelectionStep = ({setFormSubmitted, setDonationData, donationData, lat, lng, range}) => {
+
+    const getIcon = (category) => {
+        switch (category) {
+            case "Clothing":
+                return <IoShirt className={"text-2xl"}/>
+            case "Electronics":
+                return <HiComputerDesktop className={"text-2xl"}/>
+            case "Toys":
+                return <MdToys className={"text-2xl"}/>
+            case "Books":
+                return <FaBook className={"text-2xl"}/>
+            case "Food":
+                return <GiForkKnifeSpoon className={"text-2xl"}/>
+            case "Medical":
+                return <FaBriefcaseMedical className={"text-2xl"}/>
+            default:
+                return <IoShirt className={"text-2xl"}/>
+        }
+    }
+    const [loading, setLoading] = useState([])
+    const [requests, setRequests] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState(null)
+    const [categoryRequests, setCategoryRequests] = useState({
+        "Clothing": 0,
+        "Electronics": 0,
+        "Toys": 0,
+        "Books": 0,
+        "Food": 0,
+        "Medical": 0
+    })
+    const [sortedCategoryRequests, setSortedCategoryRequests] = useState({
+        "Clothing": 0,
+        "Electronics": 0,
+        "Toys": 0,
+        "Books": 0,
+        "Food": 0,
+        "Medical": 0
+    })
+
+    useEffect(() => {
+        console.log({categoryRequests})
+        let sortArray = [];
+
+        for (let i in categoryRequests) {
+            sortArray.push({key: i, value: categoryRequests[i]});
+        }
+        sortArray.sort(function (a, b) {
+            return a.value - b.value;
+        });
+
+        sortArray = sortArray.reverse()
+        let newList = {};
+        for (let i in sortArray) {
+            newList[sortArray[i].key] = sortArray[i].value;
+        }
+
+        console.log({newList});
+        setSortedCategoryRequests(newList);
+    }, [categoryRequests]);
+
+    useEffect(() => {
+        getNgoRequestDataWithInRange({lat, lng, range}).then(() => {
+            console.log({requests})
+        })
+    }, [])
+
+    useEffect(() => {
+        console.log({selectedCategory})
+        setDonationData({...donationData, category: selectedCategory})
+    }, [selectedCategory])
+
+    const getNgoRequestDataWithInRange = async ({lat, lng, range}) => {
+        // Find cities within 50km of London
+        setLoading(true)
+        console.log({lat, lng, range})
+        const center = [lat, lng];
+        const radiusInM = range * 1000;
+
+        const bounds = geohashQueryBounds(center, radiusInM);
+        const promises = [];
+        for (const b of bounds) {
+            console.log({b})
+            const q = query(collection(db, "requests"), orderBy("location.geohash"), startAt(b[0]), endAt(b[1]));
+            const querySnapshot = getDocs(q);
+            promises.push(querySnapshot);
+        }
+
+        console.log({promises: promises.length})
+
+        Promise.all(promises).then((snapshots) => {
+            const matchingDocs = [];
+
+            for (const snap of snapshots) {
+                for (const doc of snap.docs) {
+                    const lat = doc.get('location.latitude');
+                    const lng = doc.get('location.longitude');
+
+                    // We have to filter out a few false positives due to GeoHash
+                    // accuracy, but most will match
+                    const distanceInKm = distanceBetween([lat, lng], center);
+                    const distanceInM = distanceInKm * 1000;
+                    if (distanceInM <= radiusInM) {
+                        matchingDocs.push(doc);
+                    }
+                }
+            }
+
+            return matchingDocs;
+        }).then((matchingDocs) => {
+            matchingDocs.map((doc) => {
+                let data = doc.data()
+                console.log({data})
+                setCategoryRequests((prev) => {
+                    return {...prev, [data.requestedItem]: prev[data.requestedItem] + data.requestedUnits}
+                })
+            })
+            setLoading(false)
+        });
+    }
+
+    return (
+        <div className={"grid grid-cols-1 mt-5 px-5 gap-y-4 mx-auto"}>
+            {
+                loading ? <div className={"flex justify-center items-center"}>
+                        <svg aria-hidden="true"
+                             className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+                             viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                fill="currentColor"/>
+                            <path
+                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                fill="currentFill"/>
+                        </svg>
+
+                    </div> :
+
+                    Object.keys(sortedCategoryRequests).map((key, index) => {
+                        return (
+                            <div key={index}>
+                                {categoryRequests[key] > 0 && (
+                                    <div onClick={() => {
+                                        console.log(key)
+                                        setSelectedCategory(key)
+                                    }}
+                                         className={`px-3 py-3 cursor-pointer w-fit active:scale-95 transition transform duration-200 ease-in-out hover:bg-gray-200 rounded-md border mx-auto ${key === selectedCategory ? ' border-green-600' : ''}`}>
+                                        <div className={"flex justify-center items-center space-x-6"}>
+                                            <div>
+                                                {getIcon(key)}
+                                            </div>
+                                            <div>
+                                                <h3 className={"text-gray-700 font-semibold"}>{key}</h3>
+                                                <p className={"text-sm text-gray-460"}>{`${categoryRequests[key]} requests received from NGOs.`}</p>
+                                                {index === 0 &&
+                                                    <div className={"flex mt-3 justify-start items-center space-x-2"}>
+                                                        <FiTrendingUp color={"green"}
+                                                                      className={"text-green-600 line-current"}/>
+                                                        <p className={"text-sm tracking-tight text-green-600"}>Most
+                                                            needed
+                                                            category.</p>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                                }
+                            </div>
+                        )
+                    })
+            }
+        </div>
+    )
+
+}
 const PlaceOrderStep = ({setFormSubmitted, setDonationData, donationData}) => {
 
     const [loading, setLoading] = useState(false);
@@ -224,6 +483,7 @@ const PlaceOrderStep = ({setFormSubmitted, setDonationData, donationData}) => {
             console.log(key, value);
             data[key] = value
         }
+
         try {
             const dataWithTime = {
                 ...data, time: Math.floor((new Date().getTime()) / 1000), status: "uploaded",
@@ -393,13 +653,13 @@ const PickupStep = ({max, donationData, setDonationData}) => {
             description: "You can add the number of clothes you want to donate",
             count: 0
         }, {
-            title: "Shoes",
-            icon: <GiConverseShoe size={20} className={"flex justify-center items-center"}/>,
-            description: "You can add the number of shoes you want to donate",
+            title: "Medical",
+            icon: <FaBriefcaseMedical size={20} className={"flex justify-center items-center"}/>,
+            description: "You can add the number of supplies you want to donate",
             count: 0
         }, {
             title: "Books",
-            icon: <RiBook2Fill size={20} className={"flex justify-center items-center"}/>,
+            icon: <FaBook size={20} className={"flex justify-center items-center"}/>,
             description: "You can add the number of books you want to donate",
             count: 0
         }, {
@@ -409,13 +669,13 @@ const PickupStep = ({max, donationData, setDonationData}) => {
             count: 0
         }, {
             title: "Electronics",
-            icon: <BsLaptop size={20} className={"flex justify-center items-center"}/>,
+            icon: <HiComputerDesktop size={20} className={"flex justify-center items-center"}/>,
             description: "You can add the number of devices you want to donate",
             count: 0
         },
         {
-            title: "Other",
-            icon: <IoShirt size={20} className={"flex justify-center items-center"}/>,
+            title: "Food",
+            icon: <GiForkKnifeSpoon size={20} className={"flex justify-center items-center"}/>,
             description: "Have something else you want to donate? Add it here.",
             count: 0
         }
@@ -438,7 +698,7 @@ const PickupStep = ({max, donationData, setDonationData}) => {
             return acc + item.count
         }, 0)
     }
-
+    const selectedCategories = donationData.category
     return (
         <div className={"p-4"}>
             <div>
@@ -446,47 +706,51 @@ const PickupStep = ({max, donationData, setDonationData}) => {
                     className={"font-normal block"}>selected</span></h3>
                 <div className={"grid grid-cols-1 p-4 space-y-3"}>
                     {items.map((item, index) => {
-                        const Icon = item.icon;
-                        return (
-                            <Card key={index}
-                                  className={"mx-auto"}
-                                  actions={[
-                                      <MinusOutlined onClick={() => {
-                                          if (getTotalSelectedItems() > 0) {
-                                              message.success("Removed from bag!")
-                                              setItems(items.map((item, i) => {
-                                                  if (i === index) {
-                                                      return {...item, count: item.count - 1}
-                                                  }
-                                                  return item
-                                              }))
-                                          } else {
-                                              message.error("You can't remove more items!")
-                                          }
-                                      }} key="plus"/>,
-                                      <PlusOutlined onClick={() => {
-                                          if (getTotalSelectedItems() < max) {
-                                              message.success("Added to bag!")
-                                              setItems(items.map((item, i) => {
-                                                  if (i === index) {
-                                                      return {...item, count: item.count + 1}
-                                                  }
-                                                  return item
-                                              }))
-                                          } else {
-                                              message.error("You can't add more items!")
-                                          }
-                                      }} key="minus"/>,
-                                  ]}>
-                                <Skeleton loading={false} avatar active>
-                                    <Meta
-                                        avatar={item.icon}
-                                        title={item.title}
-                                        description={item.description}
-                                    />
-                                </Skeleton>
-                            </Card>)
-                    })}
+                            return (
+                                <div key={index}>{
+                                    selectedCategories.includes(item.title) && (
+                                        <Card key={index}
+                                              className={"mx-auto"}
+                                              actions={[
+                                                  <MinusOutlined onClick={() => {
+                                                      if (getTotalSelectedItems() > 0) {
+                                                          message.success("Removed from bag!")
+                                                          setItems(items.map((item, i) => {
+                                                              if (i === index) {
+                                                                  return {...item, count: item.count - 1}
+                                                              }
+                                                              return item
+                                                          }))
+                                                      } else {
+                                                          message.error("You can't remove more items!")
+                                                      }
+                                                  }} key="plus"/>,
+                                                  <PlusOutlined onClick={() => {
+                                                      if (getTotalSelectedItems() < max) {
+                                                          setItems(items.map((item, i) => {
+                                                              if (i === index) {
+                                                                  return {...item, count: item.count + 1}
+                                                              }
+                                                              return item
+                                                          }))
+                                                      } else {
+                                                          message.error("You can't add more items!")
+                                                      }
+                                                  }} key="minus"/>,
+                                              ]}>
+                                            <Skeleton loading={false} avatar active>
+                                                <Meta
+                                                    avatar={item.icon}
+                                                    title={item.title}
+                                                    description={item.description}
+                                                />
+                                            </Skeleton>
+                                        </Card>)
+                                }
+                                </div>
+                            )
+                        }
+                    )}
 
                 </div>
 
@@ -605,10 +869,32 @@ const DetailsStep = ({setSelectedPickUpType, donationData, setDonationData}) => 
     </div>)
 }
 
-const Donate = () => {
+function prettyRound(num, decimals) {
+    return parseFloat(num.toFixed(decimals));
+}
 
+const New = () => {
 
-    const steps = ["Location", "Details", "Pickup", "Place Order"]
+    //
+    // let goodData = []
+    // data.map((item, index) => {
+    //     item.location.latitude = prettyRound(item.location.latitude + (Math.random() * 0.01), 6)
+    //     item.location.longitude = prettyRound(item.location.longitude + (Math.random() * 0.01), 6)
+    //     item.location.geohash = geohashForLocation([item.location.latitude, item.location.longitude])
+    //     goodData.push(item)
+    // })
+    // console.log({goodData})
+    //
+    // goodData.map((item, index) => {
+    //     addDoc(collection(db, "requests"), item).then(() => {
+    //         console.log(`Document successfully written! ${index}`);
+    //     }).catch(e => {
+    //         console.log(e)
+    //     })
+    // })
+    //
+
+    const steps = ["Location", "Selection", "Details", "Pickup", "Place Order"]
     const [current, setCurrent] = useState(0);
     const [stepsDone, setStepsDone] = useState([])
 
@@ -678,34 +964,48 @@ const Donate = () => {
                 </div>
             </div>)}
             {(current === 1 && !formSubmitted) && (<div>
+                <h2 className="text-center text-lg font-semibold text-gray-600 pt-4">NGOs that are in need</h2>
+                <p className={"text-center text-gray-500 text-sm px-4 -mb-6"
+                }>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam architecto fuga voluptates! A
+                    asperiores consequuntur culpa cumque excepturi iusto voluptas?</p>
+                <div className={"pt-10 pb-20"}>
+                    {current === 1 && (<SelectionStep donationData={donateData} setDonationData={setDonateData}
+                                                      setSelectedPickUpType={setSelectedPickUpType}
+                        // lat={donateData.location.lat} lng={donateData.location.lng}
+                                                      lat={28.535840} lng={77.395995}
+                                                      range={100}/>)}
+                </div>
+            </div>)}
+            {(current === 2 && !formSubmitted) && (<div>
                 <h2 className="text-center text-lg font-semibold text-gray-600 pt-4">How does the pickup look
                     like?</h2>
                 <p className={"text-center text-gray-500 text-sm px-4 -mb-6"
                 }>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam architecto fuga voluptates! A
                     asperiores consequuntur culpa cumque excepturi iusto voluptas?</p>
                 <div className={"pt-10 pb-20"}>
-                    {current === 1 && (<DetailsStep donationData={donateData} setDonationData={setDonateData}
+                    {current === 2 && (<DetailsStep donationData={donateData} setDonationData={setDonateData}
                                                     setSelectedPickUpType={setSelectedPickUpType}/>)}
                 </div>
             </div>)}
-            {(current === 2 && !formSubmitted) && (<div>
+
+            {(current === 3 && !formSubmitted) && (<div>
                 <h2 className="text-center text-lg font-semibold text-gray-600 pt-4">Add the details of your
                     pickup</h2>
                 <p className={"text-center text-gray-500 text-sm px-4 -mb-6"
                 }>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam architecto fuga voluptates! A
                     asperiores consequuntur culpa cumque excepturi iusto voluptas?</p>
                 <div className={"pt-10 pb-20"}>
-                    {current === 2 && (<PickupStep donationData={donateData} setDonationData={setDonateData}
+                    {current === 3 && (<PickupStep donationData={donateData} setDonationData={setDonateData}
                                                    max={selectedPickUpType === 'light' ? 20 : 40}/>)}
                 </div>
             </div>)}
-            {(current === 3 && !formSubmitted) && (<div>
+            {(current === 4 && !formSubmitted) && (<div>
                 <h2 className="text-center text-lg font-semibold text-gray-600 pt-4">Schedule the Pickup</h2>
                 <p className={"text-center text-gray-500 text-sm px-4 -mb-6"
                 }>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam architecto fuga voluptates! A
                     asperiores consequuntur culpa cumque excepturi iusto voluptas?</p>
                 <div className={"pt-10 pb-20"}>
-                    {current === 3 && (<PlaceOrderStep donationData={donateData} setDonationData={setDonateData}
+                    {current === 4 && (<PlaceOrderStep donationData={donateData} setDonationData={setDonateData}
                                                        setFormSubmitted={setFormSubmitted}/>)}
                 </div>
             </div>)}
@@ -717,7 +1017,7 @@ const Donate = () => {
                 }>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam architecto fuga voluptates! A
                     asperiores consequuntur culpa cumque excepturi iusto voluptas?</p>
                 <div className={"pt-10 pb-20"}>
-                    {current === 3 && (
+                    {current === 5 && (
                         <div
                             className="mb-8 flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4 lg:mb-16">
                             <button
@@ -749,7 +1049,6 @@ const Donate = () => {
             </div>)}
         </div>
         <div className={"flex justify-start w-full my-5"}>
-
             {(current > 0 && !formSubmitted) && (
                 <Button type={"dashed"} style={{margin: '0 8px'}} onClick={() => prev()}>
                     Previous
@@ -763,4 +1062,4 @@ const Donate = () => {
         </div>
     </div>)
 }
-export default Donate
+export default New
