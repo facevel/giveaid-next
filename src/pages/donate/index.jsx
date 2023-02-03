@@ -19,6 +19,7 @@ import {endAt, getDocs, orderBy, query, startAt} from "@firebase/firestore";
 import {FaBook, FaBriefcaseMedical} from "react-icons/fa";
 import {FiTrendingUp} from "react-icons/fi";
 import {HiComputerDesktop} from "react-icons/hi2";
+import {TabsLayout} from "../../layouts";
 
 
 const NEXT_PUBLIC_GOOGLE_MAP_KEY = "AIzaSyCgYjkne3uY7GrA0TcAGIGqof4tmCYkr9I"
@@ -1062,4 +1063,6 @@ const Donate = () => {
         </div>
     </div>)
 }
+
+Donate.pageLayout = TabsLayout
 export default Donate
