@@ -28,7 +28,7 @@ const DeliveryPartnerLogo = ({name}: { name: string }) => {
 const DonationTrackingSampleData = [
     {
         title: "Clothing Donation",
-        deliveryPartner: "DHL",
+        deliveryPartner: "dhl",
         eta: "2023-02-03T10:00:00.000Z",
         shipment: "DHL1234",
         location: {latitude: 28.5691, longitude: 77.3423},
@@ -38,7 +38,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Book Donation",
-        deliveryPartner: "Bluedart",
+        deliveryPartner: "bluedart",
         eta: "2023-02-04T15:00:00.000Z",
         shipment: "BD1234",
         location: {latitude: 28.5529, longitude: 77.2587},
@@ -48,7 +48,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Food Donation",
-        deliveryPartner: "Delhivery",
+        deliveryPartner: "delhivery",
         eta: "2023-02-05T12:00:00.000Z",
         shipment: "DL1234",
         location: {latitude: 28.5242, longitude: 77.1854},
@@ -58,7 +58,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Toy Donation",
-        deliveryPartner: "Porter",
+        deliveryPartner: "porter",
         eta: "2023-02-06T11:00:00.000Z",
         shipment: "PR1234",
         location: {latitude: 28.6126, longitude: 77.2293},
@@ -68,7 +68,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Clothing Donation",
-        deliveryPartner: "DHL",
+        deliveryPartner: "dhl",
         eta: "2023-02-07T09:00:00.000Z",
         shipment: "DHL5678",
         location: {latitude: 28.6140, longitude: 77.2867},
@@ -78,7 +78,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Book Donation",
-        deliveryPartner: "Bluedart",
+        deliveryPartner: "bluedart",
         eta: "2023-02-08T14:00:00.000Z",
         shipment: "BD5678",
         location: {latitude: 28.5933, longitude: 77.2496},
@@ -88,7 +88,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Food Donation",
-        deliveryPartner: "Delhivery",
+        deliveryPartner: "delhivery",
         eta: "2023-02-09T13:00:00.000Z",
         shipment: "DL5678",
         status: "In Transit",
@@ -98,7 +98,7 @@ const DonationTrackingSampleData = [
     },
     {
         title: "Toy Donation",
-        deliveryPartner: "Porter",
+        deliveryPartner: "porter",
         eta: "2023-02-10T10:00:00.000Z",
         shipment: "PR5678",
         location: {latitude: 28.5714, longitude: 77.3298},
