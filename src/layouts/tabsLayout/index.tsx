@@ -58,16 +58,16 @@ const TabsLayout = (props: Props) => {
     ];
 
     return (
-        <div className={""}>
+        <div className={"relative"}>
             <nav
                 className={'sticky top-0 w-full h-20 bg-green-600 flex flex-row items-center justify-center text-xl z-20 drop-shadow-xl border-b-2 border-green-700'}>
                 <img src={'/giveaid-logo.svg'} alt={'Give Aid Logo'}/>
             </nav>
-            <div className={"min-h-[calc(100vh-10rem)] w-full"}>
+            <div className={"min-h-[calc(100vh-20rem)] mb-20 w-full"}>
                 {props.children}
             </div>
 
-            <div className={'sticky bottom-0 h-20 w-full bg-gray-100 dark:bg-gray-900 mx-auto rounded-t-2xl'}>
+            <div className={'fixed bottom-0 z-40 h-20 w-full bg-gray-100 dark:bg-gray-900 mx-auto rounded-t-2xl'}>
                 <div
                     className={
                         "bg-gray-100 px-1 py-2 dark:bg-gray-900 max-w-md mx-auto flex flex-row justify-evenly gap-4 rounded-t-2xl"
