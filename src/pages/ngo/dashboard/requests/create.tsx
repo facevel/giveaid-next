@@ -1,46 +1,111 @@
 import React from "react";
-import {useForm} from "react-hook-form";
+import {Formik, useFormik} from 'formik';
 import {NgoPageLayout} from "layouts";
+import * as Yup from 'yup';
 
-const App = () => {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: {errors}
-    } = useForm();
-    //@ts-ignore
-    const onSubmit = (data) => {
-        console.log(data);
-    };
 
-    return (
-        <div className={"mx-auto py-8 px-6 max-w-md rounded-lg bg-white border border-gray-200"}>
-            <form onSubmit={handleSubmit(onSubmit)} className={"flex flex-col"}>
-                <input className={"border border-gray-200 rounded-lg px-2 py-1 mt-6"}
-                       placeholder={"Item"} {...register("itemRequired", {required: true})} />
-                {errors.exampleRequired && <p className={"text-sm text-red-900"}>This field is required</p>}
-                <input className={"border border-gray-200 rounded-lg px-2 py-1 mt-6"}
-                       placeholder={"Description"} {...register("descriptionRequired", {required: true})} />
-                {errors.exampleRequired && <p className={"text-sm text-red-900"}>This field is required</p>}
+function App() {
 
-                <div className={"grid grid-cols-7"}>
-                    <input className={"col-span-5 border border-gray-200 rounded-l-lg rounded-r-none rounded-lg px-2 py-1 mt-6"}
-                           placeholder={"Quantity"} {...register("Quantity", {required: true})} />
-                <select className={"col-span-2 border-gray-200 rounded-r-lg rounded-l-none rounded-lg pl-2 py-1 mt-6"} {...register("gender")}>
-                    <option value="female">Units</option>
-                    <option value="male">Kg</option>
-                    <option value="other">g</option>
-                    <option value="other">g</option>
-                </select>
+    const formik = useFormik({
+
+        initialValues: {
+            requestTitle: '',
+            requestDescript: '',
+            startDate: '',
+            endDate: ''
+        },
+
+        validationSchema: Yup.object({
+            requestTitle: Yup.string().max(20, 'Must be 20 character or less.').required('Required.'),
+            requestDescript: Yup.string().required()
+
+        }),
+
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+
+    });
+
+    return (<div className={"max-w-md mx-auto px-6 py-6 mt-6 rounded-lg border border-gray-200 bg-white"}>
+            <form className={"mx-auto grid grid-cols-2 gap-2 items-center justify-between"}
+                  onSubmit={formik.handleSubmit}>
+                <label className={"justify-self-end"} htmlFor={"requestTitle"}>Request Title</label>
+                <div>
+                <input
+                    className={"rounded-lg border-gray-300"}
+                    id={"requestTitle"}
+                    name={"requestTitle"}
+                    type={"text"}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.requestTitle}
+                />
+                {formik.touched.requestTitle && formik.errors.requestTitle ? (
+
+                    <div className={"text-xs font-light text-red-600"}>{formik.errors.requestTitle}</div>
+
+                ) : null}
                 </div>
-                    <input
-                        className={"bg-green-600 rounded-lg w-fit mt-6 mx-auto px-2 py-1 text-white cursor-pointer hover:bg-green-500"}
-                        type="submit"/>
+
+                <label className={"justify-self-end"} htmlFor={"requestDescript"}>Request Description</label>
+                <div>
+                <input
+                    className={"rounded-lg border-gray-300"}
+
+                    id={"requestDescript"}
+                    name={"requestDescript"}
+                    type={"text"}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.requestDescript}
+                />
+                    {formik.touched.requestTitle && formik.errors.requestTitle ? (
+
+                        <div className={"text-xs font-light text-red-600"}>{formik.errors.requestTitle}</div>
+
+                    ) : null}
+                </div>
+
+                <label className={"justify-self-end"} htmlFor={"startDate"}>Earliest Receiving Date</label>
+                <div>
+                <input
+                    className={"rounded-lg border-gray-300"}
+                    id={"startDate"}
+                    name={"startDate"}
+                    type={"date"}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.startDate}
+                />
+                    {formik.touched.endDate && formik.errors.endDate ? (
+
+                        <div className={"text-xs font-light text-red-600"}>{formik.errors.endDate}</div>
+
+                    ) : null}
+                </div>
+
+                <label className={"justify-self-end"} htmlFor={"endDate"}>Latest Receiving Date</label>
+                <div>
+                <input
+                    className={"rounded-lg border-gray-300"}
+                    id={"endDate"}
+                    name={"endDate"}
+                    type={"date"}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.endDate}
+                />
+                    {formik.touched.endDate && formik.errors.endDate ? (
+
+                        <div className={"text-xs font-light text-red-600"}>{formik.errors.endDate}</div>
+
+                    ) : null}
+                </div>
             </form>
-        </div>
-    );
+    </div>)
 }
+
 
 App.pageLayout = NgoPageLayout
 export default App;
