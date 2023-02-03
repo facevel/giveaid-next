@@ -137,7 +137,7 @@ export const UserContextProvider = (props: any) => {
             //@ts-ignore
             data["lastUpdatedCategories"] = {
               Food: timeInMillis,
-              Clothes: timeInMillis,
+              Clothing: timeInMillis,
               Medical: timeInMillis,
               Books: timeInMillis,
               Toys: timeInMillis,

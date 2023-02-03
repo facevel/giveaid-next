@@ -51,7 +51,12 @@ export default function NgoPageLayout(props: Props) {
             "container mx-auto flex w-full flex-row items-center justify-between"
           }
         >
-          <img src={"/giveaid-logo.svg"} alt={"Give Aid Logo"} />
+            <div className={"flex flex-row items-end gap-1"}>
+              <img src={"/giveaid-logo.svg"} alt={"Give Aid Logo"} />
+                <span className={"text-sm font-bold text-white mb-1"}>
+                    NGO
+                </span>
+            </div>
           <div className={"flex flex-row items-center gap-10"}>
             <span className={"flex flex-col rounded-lg"}>
               {user ? (

@@ -669,7 +669,7 @@ const PickupStep = ({max, donationData, setDonationData}) => {
 
     const [items, setItems] = useState([
         {
-            title: "Clothes",
+            title: "Clothing",
             icon: <IoShirt size={20} className={"flex justify-center items-center"}/>,
             description: "You can add the number of clothes you want to donate",
             count: 0

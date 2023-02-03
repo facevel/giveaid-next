@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { NgoPageLayout } from "layouts";
-import { Space, Table, Tag } from 'antd';
+import {Dropdown, Space, Table, Tag} from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { db } from "@/firebase";
-import { getDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
+import {collection, query, where, getDocs, orderBy} from "firebase/firestore";
 import { format, parseISO } from "date-fns";
+import { useUserContext } from "@/firebase/authContext";
 
-interface DataType {
+
+interface RequestDataType {
   key: string;
   title: string;
   requestDate: string;
   fulfillmentMaxDate: string;
   requestedUnits : number;
+  fulfilledUnits : number;
   requestedItem: string;
-  fulfilled: boolean;
   priority: number;
 }
 
-const columns: ColumnsType<DataType> = [
+
+const columns: ColumnsType<RequestDataType> = [
   {
     title: 'Title',
     dataIndex: 'title',
     key: 'title',
     ellipsis: true,
-    render: (text) => <a>{text}</a>,
+    render: (text) => <h1 className={'font-regular'}>{text}</h1>,
+  },
+  {
+    title: 'Category',
+    dataIndex: 'requestedItem',
+    key: 'requestedItem',
+    ellipsis: true,
+    sorter: (a, b) => a.requestedItem.length - b.requestedItem.length,
+    render: (text) => <span className={'font-bold'}>{text}</span>,
   },
   {
     title: 'Request Date',
@@ -66,27 +77,33 @@ const columns: ColumnsType<DataType> = [
     title: 'Requested Units',
     key: 'requestedUnits',
     dataIndex: 'requestedUnits',
+    sorter: (a, b) => a.requestedUnits - b.requestedUnits,
   },
   {
     title: 'Fulfilled',
     key: 'fulfilledUnits',
     dataIndex: 'fulfilledUnits',
+    sorter: (a, b) => a.fulfilledUnits - b.fulfilledUnits,
   },
 ];
 
 
 
 const RequestsHistory = () => {
-  const [requestData, setRequestData] = useState<DataType[]>([]);
+  const { getNgoId } = useUserContext();
+  const [requestData, setRequestData] = useState<RequestDataType[]>([]);
 
   const getData = () => {
     return new Promise(async (resolve, reject) => {
+      const ngo_id = await getNgoId();
+      console.log(ngo_id)
       const collectionRef = collection(db, "requests");
-      const q = query(collectionRef, where("ngoId", "==", "testNgoId"));
+      const q = query(collectionRef, where("ngo_id", "==", ngo_id),orderBy("requestDate", "asc"));
       const docSnap = await getDocs(q);
       resolve(docSnap.docs.map((doc) => doc.data()));
     });
   };
+
   //get data from firestore and set to data
   useEffect(() => {
     //get data from firestore and set to data
@@ -102,15 +119,14 @@ const RequestsHistory = () => {
             title: items.title,
             requestDate: format(
               new Date(items.requestDate.seconds*1000),
-              "dd MMM yyyy, h a"
+              "dd MMM yyyy"
             ),
             fulfillmentMaxDate: format(
               new Date(items.fulfillmentMaxDate.seconds*1000),
-              "dd MMM yyyy, h a"
+              "dd MMM yyyy"
             ),
             requestedUnits: items.requestedUnits,
             requestedItem: items.requestedItem,
-            fulfilled: items.fulfilled,
             priority: items.priority,
             fulfilledUnits: items.fulfilledUnits,
           },
@@ -126,6 +142,7 @@ const RequestsHistory = () => {
       </div>
 
       <Table
+        // @ts-ignore
         columns={columns}
         dataSource={requestData}
         className={"w-full"}
