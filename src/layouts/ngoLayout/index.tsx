@@ -40,9 +40,7 @@ export default function NgoPageLayout(props: Props) {
 
   return (
     <div className={"min-h-screen"}>
-      {
-        loading && <Loading />
-      }
+      <Loading loading={loading} />
       <nav
         className={
           "sticky top-0 z-20 flex h-20 w-full flex-row items-center justify-between border-b-2 border-green-700 bg-green-600 px-5 text-xl drop-shadow-xl"
@@ -121,11 +119,11 @@ export default function NgoPageLayout(props: Props) {
         </div>
       </Modal>
 
-      <div className="grid grid-cols-12 h-[calc(100vh-5rem)]">
+      <div className="grid grid-cols-12 h-[calc(100vh-5rem)] container mx-auto">
         <div className="col-span-4 lg:col-span-2 h-[calc(100vh-5rem)] scrollbar">
             <MenuAntDesign/>
         </div>
-        <div className="col-span-8 lg:col-span-10 p-5 scrollbar">{props.children}</div>
+        <div className="col-span-8 lg:col-span-10 p-2 scrollbar">{props.children}</div>
       </div>
     </div>
   );
