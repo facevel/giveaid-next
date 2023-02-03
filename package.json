@@ -23,7 +23,7 @@
     "date-fns": "^2.29.3",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
-    "firebase": "^9.16.0",
+    "firebase": "9.16.0",
     "formik": "^2.2.9",
     "framer-motion": "^9.0.0",
     "geofire-common": "^6.0.0",
