@@ -120,10 +120,17 @@ export default function NgoPageLayout(props: Props) {
       </Modal>
 
       <div className="grid grid-cols-12 h-[calc(100vh-5rem)] container mx-auto">
-        <div className="col-span-4 lg:col-span-2 h-[calc(100vh-5rem)] scrollbar">
-            <MenuAntDesign/>
-        </div>
-        <div className="col-span-8 lg:col-span-10 p-2 scrollbar">{props.children}</div>
+        {
+        user ?
+        <>
+          <div className="col-span-4 lg:col-span-2 h-[calc(100vh-5rem)] scrollbar">
+              <MenuAntDesign/>
+          </div>
+          <div className="col-span-8 lg:col-span-10 p-2 scrollbar">{props.children}</div>
+        </>
+        :
+          <div className="col-span-12 lg:col-span-12 p-2 scrollbar">{props.children}</div>
+        }
       </div>
     </div>
   );
