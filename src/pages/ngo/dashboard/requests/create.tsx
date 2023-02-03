@@ -6,6 +6,8 @@ import { message } from "antd";
 import { Timestamp } from "firebase/firestore";
 import Link from "next/link";
 import { nanoid } from "nanoid";
+import { useUserContext } from "@/firebase/authContext";
+import { geohashForLocation } from "geofire-common";
 
 interface requestForm {
   requestId: string;
@@ -31,15 +33,6 @@ interface requestForm {
   };
 }
 
-const NGORegisteredLocation = {
-  latitude: 28.7041,
-  longitude: 77.1025,
-  geohash: "28.7041,77.1025",
-  address: "Delhi",
-};
-
-const ngoId = "testNgoId";
-
 /*
  * Clothing - Cloths, Shoes, Socks, Undergarments, etc
  * Electronics - Mobiles, Laptops, Tablets, etc
@@ -53,6 +46,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const { getNgoId, getNgoLocation } = useUserContext();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
@@ -61,23 +55,38 @@ function App() {
       const formData = new FormData(e.target);
       // @ts-ignore
       const requestData: requestForm = Object.fromEntries(formData.entries());
-      requestData.location = NGORegisteredLocation;
       requestData.fulfilledUnits = 0;
       //change requestDate and fulfillmentMaxDate to firebase timestamp
       // @ts-ignore
       requestData.requestDate = Timestamp.fromDate(
         new Date(requestData.requestDate)
       );
-      requestData.ngoId = ngoId;
+
       requestData.requestId = nanoid(10);
 
       // @ts-ignore
       requestData.fulfillmentMaxDate = Timestamp.fromDate(
         new Date(requestData.fulfillmentMaxDate)
       );
-      console.log(requestData);
+      const ngo_id = await getNgoId();
+      const location = await getNgoLocation();
+      console.log({ location });
+
+      location.geohash = geohashForLocation([
+        location.lat,
+        location.lng,
+      ]);
+      console.log({ ngo_id });
+
+      console.log({
+        ...requestData,
+        ngo_id,
+        location,
+      });
       const docRef = await addDoc(collection(db, "requests"), {
         ...requestData,
+        ngo_id,
+        location,
       });
       console.log("Document written with ID: ", docRef.id);
       setIsSubmitted(true);
@@ -89,17 +98,6 @@ function App() {
       setLoading(false);
     }
   };
-
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   //convert form data to json
-  //   const formData = new FormData(e.target);
-  //   // @ts-ignore
-  //   const data: requestForm = Object.fromEntries(formData.entries());
-  //   data.location = NGORegisteredLocation;
-  //   data.fulfilled = false;
-  //   console.log(data);
-  // };
 
   return (
     <div className={"grid grid-cols-12 gap-2"}>
