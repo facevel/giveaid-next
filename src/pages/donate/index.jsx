@@ -873,7 +873,7 @@ function prettyRound(num, decimals) {
     return parseFloat(num.toFixed(decimals));
 }
 
-const New = () => {
+const Donate = () => {
 
     //
     // let goodData = []
@@ -1062,4 +1062,4 @@ const New = () => {
         </div>
     </div>)
 }
-export default New
+export default Donate
