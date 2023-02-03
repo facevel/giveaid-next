@@ -50,6 +50,7 @@ const Profile = () => {
         },
     ];
 
+    // @ts-ignore
     return (
         <div
             className={"mx-auto flex flex-col items-center justify-start py-5"}
@@ -130,7 +131,7 @@ const Profile = () => {
                             <>
                                 <h1>Login to Continue</h1>
                                 <div className="mt-4 flex space-x-3 pb-6 md:mt-6">
-                                    <GoogleButton/>
+                                    <GoogleButton type={user}/>
                                 </div>
                             </>
                     }
@@ -247,14 +248,14 @@ const Profile = () => {
                                         </motion.div>
                                     );
                                 })}
+                            </div>
+                        )}
                     </div>
-                    )}
                 </div>
             </div>
         </div>
-</div>
-)
-    ;
+    )
+        ;
 };
 
 Profile.pageLayout = TabsLayout;

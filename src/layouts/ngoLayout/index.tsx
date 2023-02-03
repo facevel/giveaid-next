@@ -91,7 +91,7 @@ export default function NgoPageLayout(props: Props) {
           <p className="text-md max-w-full text-center">
             Keep our site spam-free by logging in
           </p>
-          <GoogleButton />
+          <GoogleButton type={"ngo"}/>
           <p className="max-w-sm text-center text-sm">
             By creating an account, you agree to Giveaid&apos;s{" "}
             <a
