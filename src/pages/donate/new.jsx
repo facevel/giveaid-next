@@ -505,9 +505,9 @@ const PlaceOrderStep = ({setFormSubmitted, setDonationData, donationData}) => {
 
 
     const date_time = [
-        {"date": "3rd February, 2023", "time": ["10:30 PM", "11:30 PM", "12:30 PM"]},
-        {"date": "4rd February, 2023", "time": ["10:30 PM", "11:30 PM", "12:30 PM"]},
-        {"date": "5rd February, 2023", "time": ["10:30 PM", "11:30 PM", "12:30 PM"]}
+        {"date": "4rd February, 2023", "time": ["09:30 PM", "10:00 PM", "11:00 PM"]},
+        {"date": "5rd February, 2023", "time": ["09:30 AM", "10:00 AM", "11:00 AM"]},
+        {"date": "6rd February, 2023", "time": ["09:30 AM", "10:00 AM", "11:00 AM"]},
     ]
 
     const [selectedDate, setSelectedDate] = useState(null)
