@@ -4,6 +4,9 @@ import { CardBarChart, CardLineChart } from "components";
 import { withProtectedForNGO } from "@/firebase/routes";
 import { ReactNode } from "react";
 import { NgoPageLayout } from "layouts";
+import {HiArchive} from "react-icons/hi";
+import {BsStarFill} from "react-icons/bs";
+import {FaDonate, FaRecycle} from "react-icons/fa";
 
 
 
@@ -17,24 +20,24 @@ const NgoPage = () => {
               <div className="flex flex-wrap">
                 <div className="relative w-full max-w-full flex-1 flex-grow pr-4">
                   <h5 className="text-blueGray-400 text-xs font-bold uppercase">
-                    People Helped
+                    Items Received
                   </h5>
                   <span className="text-blueGray-700 text-xl font-semibold">
-                    350,897
+                    350
                   </span>
                 </div>
                 <div className="relative w-auto flex-initial pl-4">
                   <div
                     className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-500 p-3 text-center text-white shadow-lg">
-                    <i className="far fa-chart-bar"></i>
+                    <i className="far fa-chart-bar"><HiArchive/></i>
                   </div>
                 </div>
               </div>
               <p className="text-blueGray-400 mt-4 text-sm">
                 <span className="mr-2 text-emerald-500">
-                  <i className="fas fa-arrow-up"></i> 3.48%
+                  <i className="fas fa-arrow-up"></i> +34.8%
                 </span>
-                <span className="whitespace-nowrap">Since last month</span>
+                <span className="whitespace-nowrap">compared to last month.</span>
               </p>
             </div>
           </div>
@@ -45,24 +48,24 @@ const NgoPage = () => {
               <div className="flex flex-wrap">
                 <div className="relative w-full max-w-full flex-1 flex-grow pr-4">
                   <h5 className="text-blueGray-400 text-xs font-bold uppercase">
-                    NEW USERS
+                    NGO Rating
                   </h5>
                   <span className="text-blueGray-700 text-xl font-semibold">
-                    2,356
+                    4.7/5
                   </span>
                 </div>
                 <div className="relative w-auto flex-initial pl-4">
                   <div
                     className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 p-3 text-center text-white shadow-lg">
-                    <i className="fas fa-chart-pie"></i>
+                    <i className="fas fa-chart-pie"><BsStarFill/></i>
                   </div>
                 </div>
               </div>
               <p className="text-blueGray-400 mt-4 text-sm">
                 <span className="mr-2 text-red-500">
-                  <i className="fas fa-arrow-down"></i> 3.48%
+                  <i className="fas fa-arrow-down"></i> -2.91%
                 </span>
-                <span className="whitespace-nowrap">Since last week</span>
+                <span className="whitespace-nowrap">compared to last month.   </span>
               </p>
             </div>
           </div>
@@ -73,24 +76,24 @@ const NgoPage = () => {
               <div className="flex flex-wrap">
                 <div className="relative w-full max-w-full flex-1 flex-grow pr-4">
                   <h5 className="text-blueGray-400 text-xs font-bold uppercase">
-                    SALES
+                    Waste Averted
                   </h5>
                   <span className="text-blueGray-700 text-xl font-semibold">
-                    924
+                    400 KG
                   </span>
                 </div>
                 <div className="relative w-auto flex-initial pl-4">
                   <div
                     className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-pink-500 p-3 text-center text-white shadow-lg">
-                    <i className="fas fa-users"></i>
+                    <i className="fas fa-users"><FaRecycle/></i>
                   </div>
                 </div>
               </div>
               <p className="text-blueGray-400 mt-4 text-sm">
-                <span className="mr-2 text-orange-500">
-                  <i className="fas fa-arrow-down"></i> 1.10%
+                <span className="mr-2 text-green-500">
+                  <i className="fas fa-arrow-down"></i> +12.13%
                 </span>
-                <span className="whitespace-nowrap">Since yesterday</span>
+                <span className="whitespace-nowrap">compared to last month.</span>
               </p>
             </div>
           </div>
@@ -101,24 +104,24 @@ const NgoPage = () => {
               <div className="flex flex-wrap">
                 <div className="relative w-full max-w-full flex-1 flex-grow pr-4">
                   <h5 className="text-blueGray-400 text-xs font-bold uppercase">
-                    PERFORMANCE
+                    New First Time Donors
                   </h5>
                   <span className="text-blueGray-700 text-xl font-semibold">
-                    49,65%
+                    11
                   </span>
                 </div>
                 <div className="relative w-auto flex-initial pl-4">
                   <div
-                    className="bg-lightBlue-500 inline-flex h-12 w-12 items-center justify-center rounded-full p-3 text-center text-white shadow-lg">
-                    <i className="fas fa-percent"></i>
+                    className="bg-yellow-700 inline-flex h-12 w-12 items-center justify-center rounded-full p-3 text-center text-white shadow-lg">
+                    <i className="fas fa-percent"><FaDonate/></i>
                   </div>
                 </div>
               </div>
               <p className="text-blueGray-400 mt-4 text-sm">
                 <span className="mr-2 text-emerald-500">
-                  <i className="fas fa-arrow-up"></i> 12%
+                  <i className="fas fa-arrow-up"></i> +11%
                 </span>
-                <span className="whitespace-nowrap">Since last month</span>
+                <span className="whitespace-nowrap">compared to last month.</span>
               </p>
             </div>
           </div>
