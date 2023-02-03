@@ -52,7 +52,7 @@ const Profile = () => {
 
     return (
         <div
-            className={"mx-auto flex h-screen flex-col items-center justify-start py-5"}
+            className={"mx-auto flex flex-col items-center justify-start py-5"}
         >
             <div
                 className="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
