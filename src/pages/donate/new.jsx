@@ -196,7 +196,7 @@ const LocationStep = ({donationData, setDonationData}) => {
                    className={"text-center text-sm text-red-500 underline cursor-pointer px-4 mb-4"}>Retry</p>
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    center={center}
+                    center={location ? location : center}
                     zoom={15}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
