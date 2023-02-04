@@ -1390,9 +1390,7 @@ const Donate = () => {
                             Your location helps us reach you
                         </h2>
                         <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
+                            Automatic detect requires location access.
                         </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 0 && (
@@ -1409,11 +1407,6 @@ const Donate = () => {
                         <h2 className="pt-4 text-center text-lg font-semibold text-gray-600">
                             NGOs that are in need
                         </h2>
-                        <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
-                        </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 1 && (
                                 <SelectionStep
@@ -1435,9 +1428,7 @@ const Donate = () => {
                             How does the pickup look like?
                         </h2>
                         <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
+                            Choosing a larger than necessary shipping size will result in slower deliveries.
                         </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 2 && (
@@ -1457,9 +1448,7 @@ const Donate = () => {
                             Add the details of your pickup
                         </h2>
                         <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
+                            Donations are currently limited to 40 pieces due to high supply.
                         </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 3 && (
@@ -1477,11 +1466,6 @@ const Donate = () => {
                         <h2 className="pt-4 text-center text-lg font-semibold text-gray-600">
                             Schedule the Pickup
                         </h2>
-                        <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
-                        </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 4 && (
                                 <PlaceOrderStep
@@ -1500,9 +1484,7 @@ const Donate = () => {
                             Pickup Scheduled Successfully
                         </h2>
                         <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
+                            Set a reminder so you don&apos;t miss your pickup!
                         </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 5 && (
