@@ -13,7 +13,7 @@ import {MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import Meta from "antd/lib/card/Meta";
 import TextArea from "antd/lib/input/TextArea";
 import {db} from "../../firebase";
-import {addDoc, collection} from "firebase/firestore";
+import {addDoc, collection, where} from "firebase/firestore";
 import {distanceBetween, geohashQueryBounds} from "geofire-common";
 import {endAt, getDocs, orderBy, query, startAt} from "@firebase/firestore";
 import {FaBook, FaBriefcaseMedical} from "react-icons/fa";
@@ -398,7 +398,7 @@ const SelectionStep = ({setFormSubmitted, setDonationData, donationData, lat, ln
         const promises = [];
         for (const b of bounds) {
             console.log({b})
-            const q = query(collection(db, "requests"), orderBy("location.geohash"), startAt(b[0]), endAt(b[1]));
+            const q = query(collection(db, "requests"),orderBy("location.geohash"), startAt(b[0]), endAt(b[1]));
             const querySnapshot = getDocs(q);
             promises.push(querySnapshot);
         }
@@ -429,7 +429,7 @@ const SelectionStep = ({setFormSubmitted, setDonationData, donationData, lat, ln
                 let data = doc.data()
                 console.log({data})
                 setCategoryRequests((prev) => {
-                    return {...prev, [data.requestedItem]: prev[data.requestedItem] + data.requestedUnits}
+                    return {...prev, [data.requestedItem]: prev[data.requestedItem] + data.requestedUnits - data.fulfilledUnits}
                 })
             })
             setLoading(false)

@@ -5,6 +5,7 @@ import {Card} from "antd";
 import {IoIosArrowRoundForward} from "react-icons/io";
 import {parseISO, format} from "date-fns";
 import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
+import {array} from "yup";
 
 const {Meta} = Card;
 const NEXT_PUBLIC_GOOGLE_MAP_KEY = "AIzaSyCgYjkne3uY7GrA0TcAGIGqof4tmCYkr9I"
@@ -108,6 +109,18 @@ const DonationTrackingSampleData = [
     },
 ];
 
+const findCenterPoint = (points:[{latitude:number,longitude:number}]) => {
+    let latSum = 0;
+    let lngSum = 0;
+    let numPoints = points.length;
+
+    for (let i = 0; i < numPoints; i++) {
+        latSum += points[i].latitude;
+        lngSum += points[i].longitude;
+    }
+
+    return { lat: latSum / numPoints, lng: lngSum / numPoints };
+}
 
 const DonationTracking = () => {
 
@@ -117,9 +130,11 @@ const DonationTracking = () => {
         // @ts-ignore
         const onUnmount = useCallback((map) => setMap(null), []);
 
-        const [location, setLocation] = useState<any>({
-            lat: 28.5691, lng: 77.3423
-        });
+        // @ts-ignore
+        const center = findCenterPoint(DonationTrackingSampleData.map((item) => item.location));
+        const [location, setLocation] = useState<any>(center);
+
+
         const {isLoaded} = useJsApiLoader({
             id: 'google-map-script', libraries: ["places"], googleMapsApiKey: NEXT_PUBLIC_GOOGLE_MAP_KEY
         })
