@@ -250,11 +250,11 @@ const DonationTracking = () => {
                                     <div className={"flex flex-row items-center"}>
                   <span
                       className={
-                          "rounded-md w-40 px-3 line-clamp-1 bg-gray-100 p-1 text-xs font-normal text-gray-600"
+                          "rounded-md  px-3 flex flex-row overflow-hidden flex-nowrap line-clamp-1 bg-gray-100 p-1 text-xs font-normal text-gray-600"
                       }
                       title={item.locationFrom}
                   >
-                    {item.locationFrom}
+                    {item.locationFrom.split(",")[1]}
                   </span>
                                         <IoIosArrowRoundForward
                                             size={30}
@@ -262,7 +262,7 @@ const DonationTracking = () => {
                                         />
                                         <span
                                             className={
-                                                "rounded-md bg-gray-100 p-1 text-xs font-normal text-gray-600"
+                                                "rounded-md bg-gray-100 py-1 px-3 text-xs font-normal text-gray-600"
                                             }
                                         >
                     {item.locationTo}

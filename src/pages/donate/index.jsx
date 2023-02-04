@@ -1496,13 +1496,12 @@ const Donate = () => {
 
                 {formSubmitted && (
                     <div>
+                        <img src={'success.svg'} alt={'success'} className={'w-20 mx-auto py-10'}/>
                         <h2 className="pt-4 text-center text-lg font-semibold text-gray-600">
                             Pickup Scheduled Successfully
                         </h2>
                         <p className={"-mb-6 px-4 text-center text-sm text-gray-500"}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-                            architecto fuga voluptates! A asperiores consequuntur culpa cumque
-                            excepturi iusto voluptas?
+                            You will receive a confirmation email shortly.
                         </p>
                         <div className={"pt-10 pb-20"}>
                             {current === 5 && (
