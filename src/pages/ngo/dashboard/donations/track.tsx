@@ -26,7 +26,7 @@ const DeliveryPartnerLogo = ({name}: { name: string }) => {
     );
 };
 
-const DonationTrackingSampleData = [
+export const DonationTrackingSampleData = [
     {
         title: "Clothing Donation",
         deliveryPartner: "dhl",
