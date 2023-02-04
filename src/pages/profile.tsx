@@ -58,54 +58,11 @@ const Profile = () => {
             <div
                 className="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
                 <div className="flex justify-end px-4 pt-4">
-                    <button
-                        id="dropdownButton"
-                        className="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                        type="button"
+                    <span
+                        className="bg-green-100 px-3 py-1 inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                     >
-                        <span className="sr-only">Open dropdown</span>
-                        <svg
-                            className="h-6 w-6"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                        </svg>
-                    </button>
-                    <div
-                        id="dropdown"
-                        className="z-10 hidden w-44 list-none divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:bg-gray-700"
-                    >
-                        <ul className="py-2" aria-labelledby="dropdownButton">
-                            <li>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
-                                >
-                                    Edit
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
-                                >
-                                    Export Data
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
-                                >
-                                    Delete
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                        Rewards : 22pts
+                    </span>
                 </div>
 
                 <div className="flex flex-col items-center gap-y-0 pb-10">

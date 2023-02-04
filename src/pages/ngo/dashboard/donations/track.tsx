@@ -6,6 +6,9 @@ import {IoIosArrowRoundForward} from "react-icons/io";
 import {parseISO, format} from "date-fns";
 import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
 import {array} from "yup";
+import {onSnapshot} from "@firebase/firestore";
+import {db} from "@/firebase";
+import {collection, doc} from "firebase/firestore";
 
 const {Meta} = Card;
 const NEXT_PUBLIC_GOOGLE_MAP_KEY = "AIzaSyCgYjkne3uY7GrA0TcAGIGqof4tmCYkr9I"
@@ -110,6 +113,14 @@ const DonationTrackingSampleData = [
 ];
 
 const findCenterPoint = (points:[{latitude:number,longitude:number}]) => {
+    console.log(points)
+    // @ts-ignore
+    if(points.length === 0) {
+        let lat = points[0].latitude;
+        let lng = points[0].longitude;
+        return {lat: lat, lng: lng};
+    }
+
     let latSum = 0;
     let lngSum = 0;
     let numPoints = points.length;
@@ -123,6 +134,22 @@ const findCenterPoint = (points:[{latitude:number,longitude:number}]) => {
 }
 
 const DonationTracking = () => {
+
+
+        const [donations, setDonations] = useState<any>([]);
+
+
+        useEffect(() => {
+            const unsub = onSnapshot(collection(db, "tracking"), (snapshot) => {
+                snapshot.forEach((doc) => {
+                    // setDonations((prev: any) => [...prev, doc.data()]);
+                });
+                setDonations(snapshot.docs.map((doc) => doc.data()));
+                console.log(snapshot.docs.map((doc) => doc.data()));
+                // @ts-ignore
+                setLocation(findCenterPoint(snapshot.docs.map((doc) => doc.data().location)));
+            });
+        }, []);
 
 
         // @ts-ignore
@@ -155,10 +182,12 @@ const DonationTracking = () => {
                 setZoom(18)
                 setLocation(
                     {
-                        lat: DonationTrackingSampleData.find(
+                        lat: donations.find(
+                            // @ts-ignore
                             (item) => item.shipment == selectedDonation
                         )?.location.latitude,
-                        lng: DonationTrackingSampleData.find(
+                        lng: donations.find(
+                            // @ts-ignore
                             (item) => item.shipment == selectedDonation
                         )?.location.longitude
                     }
@@ -170,7 +199,8 @@ const DonationTracking = () => {
             <div className={"grid h-[calc(100vh-6rem)] grid-cols-12 gap-2"}>
                 <div
                     className={"col-span-5 bg-gray-100 p-2 flex flex-col gap-2 h-[calc(100vh-6rem)] overflow-y-scroll scrollbar"}>
-                    {DonationTrackingSampleData.map((item, index) => {
+                    {/*// @ts-ignore*/}
+                    {donations.map((item, index) => {
                         return <div
                             className={`rounded-xl bg-white px-4 py-3 shadow-sm border-2 ${item.shipment == selectedDonation ? 'border-green-600' : 'border-transparent hover:border-green-400'} transition-all duration-300 ease-in-out active:scale-95 cursor-pointer`}
                             key={index}
@@ -220,8 +250,9 @@ const DonationTracking = () => {
                                     <div className={"flex flex-row items-center"}>
                   <span
                       className={
-                          "rounded-md bg-gray-100 p-1 text-xs font-normal text-gray-600"
+                          "rounded-md w-40 px-3 line-clamp-1 bg-gray-100 p-1 text-xs font-normal text-gray-600"
                       }
+                      title={item.locationFrom}
                   >
                     {item.locationFrom}
                   </span>
@@ -236,7 +267,7 @@ const DonationTracking = () => {
                                         >
                     {item.locationTo}
                   </span>
-                                    </div>
+                                       </div>
                                 </div>
                             </div>
                         </div>;
@@ -252,7 +283,8 @@ const DonationTracking = () => {
                             onLoad={onLoad}
                             onUnmount={onUnmount}
                         >
-                            {DonationTrackingSampleData.map((item, index) => {
+                            {/*// @ts-ignore*/}
+                            {donations.map((item, index) => {
                                 return (
                                     <MarkerF key={index}
                                              draggable={false}

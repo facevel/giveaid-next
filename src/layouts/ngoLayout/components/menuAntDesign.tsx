@@ -37,7 +37,7 @@ const items: MenuItem[] = [
   getItem("Donations", "donations", <FaBox />, [
 
     getItem(<Link href={"/ngo/dashboard/donations/track"}>Tracking</Link>, "/ngo/dashboard/donations/track"),
-    getItem(<Link href={'/ngo/dashboard/donations/donors'}>Donors</Link>, "/ngo/dashboard/donations/donors"),
+    // getItem(<Link href={'/ngo/dashboard/donations/donors'}>Donors</Link>, "/ngo/dashboard/donations/donors"),
     getItem(<Link href={'/ngo/dashboard/donations/inventory'}>Donation Inventory</Link>, "/ngo/dashboard/donations/inventory"),
 
   ]),
