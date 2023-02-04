@@ -23,7 +23,7 @@ export const LandingFormView = () => {
                         <p className="max-w-full text-center text-md">
                             Keep our site spam-free by logging in
                         </p>
-                        <GoogleButton/>
+                        <GoogleButton type={'user'}/>
                         <p className="max-w-sm text-center text-sm">
                             By creating an account, you agree to Giveaid&apos;s <a href="/terms-of-service"
                                                                                    className="text-blue-500 hover:underline font-semibold">Terms

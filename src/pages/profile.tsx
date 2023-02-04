@@ -131,7 +131,7 @@ const Profile = () => {
                             <>
                                 <h1>Login to Continue</h1>
                                 <div className="mt-4 flex space-x-3 pb-6 md:mt-6">
-                                    <GoogleButton type={user}/>
+                                    <GoogleButton type={'user'}/>
                                 </div>
                             </>
                     }
